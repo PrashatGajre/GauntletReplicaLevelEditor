@@ -1,5 +1,36 @@
-Label {
-    font-size: 20px;
-    -unity-font-style: bold;
-    color: rgb(68, 138, 255);
+/*Main Menu Style*/
+
+.menu-container {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 5px;
 }
+
+.menu-button-on {
+    font-size: 15px;
+    flex-grow:1;
+    height: 36px;
+    opacity: 0.5;
+}
+
+.menu-button-off {
+    font-size: 15px;
+    flex-grow: 1;
+    height: 36px;
+    opacity: 1;
+}
+
+/*Asset Manager Style*/
+
+
+
+/*Player Editor Style*/
+
+
+
+/*Enemy Editor Style*/
+
+
+
+/*Level Editor Style*/
+
