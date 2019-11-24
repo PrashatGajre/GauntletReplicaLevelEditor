@@ -62,7 +62,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\EditorComponents\AssetManager.cs" />
     <Compile Include="Assets\Editor\LevelEditor.cs" />
+    <None Include="Assets\Editor\EditorComponents\AssetManager.uxml" />
     <None Include="Assets\Editor\LevelEditor.uxml" />
     <None Include="Assets\Editor\LevelEditor.uss" />
     <Reference Include="UnityEditor.TestRunner">

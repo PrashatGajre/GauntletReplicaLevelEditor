@@ -22,7 +22,8 @@
 
 /*Asset Manager Style*/
 
-
+.asset-manager-container {
+}
 
 /*Player Editor Style*/
 

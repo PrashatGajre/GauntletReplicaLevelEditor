@@ -50,7 +50,7 @@ public class LevelEditor : EditorWindow
         //Get the visual editor tree
         levelEditorContent = visualTree.CloneTree();
         root.Add(levelEditorContent);
-
+        root.Add(AssetManager.GetAssetManager());
         string[] menuButtonNames = { "menu-button-asset", "menu-button-player", "menu-button-enemy", "menu-button-level"};
         
         //Get the menu buttons        
