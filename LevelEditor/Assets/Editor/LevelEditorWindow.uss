@@ -23,8 +23,9 @@
 .content-container {
     /*flex-direction: column;*/
     /*flex-grow: 1;*/
-    height: 858px;
+    height: 848px;
     background-color: rgb(255, 0, 0);
+    padding:5px;
 }
 
 /*Asset Manager Style*/
@@ -36,8 +37,9 @@
 
 .asset-sub-containers {
     flex-direction: column;
-    flex-grow: 1;
-    height: 870px;
+    width:600px;
+    height: 750px;
+    padding:50px;
 }
 
 .asset-manager-searchfield {
@@ -49,13 +51,6 @@
     border-color:rgb(250,250,250);
 }
 
-.asset {
-    flex-direction: row;
-    flex-grow: 1;
-    justify-content: space-between;
-    align-self: stretch;
-}
-
 
 .asset .highlight .unity-label {
     color: rgb(0, 255, 255);
@@ -64,14 +59,15 @@
 /*Player Editor Style*/
 
 .player-editor-container {
-    flex-direction: row-reverse;
-    /*flex-grow: 1;*/
+    flex-direction: row;
+    flex-grow: 1;
 }
 
 .player-sub-containers {
     flex-direction: column;
     flex-grow: 1;
-    height: 870px;
+    height: 750px;
+    padding:15px;
 }
 
 .property-field-container {
@@ -84,3 +80,12 @@
 
 /*Level Editor Style*/
 
+
+/*Common*/
+
+.row-elements {
+    flex-direction: row;
+    flex-grow: 1;
+    /*justify-content: space-between;*/
+    /*align-self: stretch;*/
+}

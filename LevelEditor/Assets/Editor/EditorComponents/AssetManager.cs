@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 
-public enum AssetType { Sprite, Sound, Font};
+public enum AssetType { Texture, Sound, Font};
 public class AssetManager : VisualElement
 {
     static AssetManager instance;
@@ -49,10 +49,10 @@ public class AssetManager : VisualElement
         popupSearchField.AddToClassList("asset-manager-searchfield");
         popupSearchField.RegisterValueChangedCallback(OnSearchTextChanged);
         
-        assetTypeSelection = new EnumField(AssetType.Sprite);
+        assetTypeSelection = new EnumField(AssetType.Texture);
         assetTypeSelection.RegisterValueChangedCallback(AssetTypeChange);
 
-        assetSelectionField = new ObjectField { objectType = typeof(UnityEngine.Sprite) };
+        assetSelectionField = new ObjectField { objectType = typeof(UnityEngine.Texture) };
 
         addAssetButton = new Button();
         addAssetButton.text = "Add Asset";
@@ -78,8 +78,8 @@ public class AssetManager : VisualElement
                 assetSelectionField.value = null;
         switch (assetType)
         {
-            case AssetType.Sprite:
-                assetSelectionField.objectType = typeof(Sprite);
+            case AssetType.Texture:
+                assetSelectionField.objectType = typeof(Texture);
                 break;
             case AssetType.Sound:
                 assetSelectionField.objectType = typeof(AudioClip);
@@ -95,7 +95,7 @@ public class AssetManager : VisualElement
         VisualElement asset = new VisualElement();
         asset.focusable = true;
         asset.name = name;
-        asset.AddToClassList("asset");
+        asset.AddToClassList("row-elements");
 
         asset.RegisterCallback<KeyDownEvent, VisualElement>(DeleteTask, asset);
 
@@ -115,7 +115,7 @@ public class AssetManager : VisualElement
             AssetType assetType = (AssetType)assetTypeSelection.value;
             switch (assetType)
             {
-                case AssetType.Sprite:
+                case AssetType.Texture:
                     assetListBoxContainer.Add(CreateAsset(assetSelectionField.value.name));
                     break;
                 case AssetType.Sound:
@@ -126,7 +126,7 @@ public class AssetManager : VisualElement
                     break;
             }
 
-            assetSelectionField.value = null;
+            //assetSelectionField.value = null;
         }
     }
 

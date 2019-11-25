@@ -35,6 +35,27 @@ public class PlayerEditor : VisualElement
 
         playerPropertiesContainer = playerEditor.Q<Box>("playerPropertiesContainer");
 
+        var playerSpriteSheet = new Label("Sprite Sheet");
+        playerSpriteSheet.name = "playerSpriteSheet";
+        var playerSpriteSelection = new ObjectField { objectType = typeof(UnityEngine.Texture) };
+        playerSpriteSelection.name = "playerSpriteSelection";
+
+        var playerSpeed = new Label("Speed");
+        playerSpeed.name = "playerSpeed";
+        var playerSpeedSelection = new FloatField();
+        playerSpeedSelection.name = "playerSpeedSelection";
+
+        var playerHealth = new Label("Health");
+        playerHealth.name = "playerHealth";
+        var playerHealthSelection = new FloatField();
+        playerHealthSelection.name = "playerHealthSelection";
+
+        playerPropertiesContainer.Add(playerSpriteSheet);
+        playerPropertiesContainer.Add(playerSpriteSelection);
+        playerPropertiesContainer.Add(playerSpeed);
+        playerPropertiesContainer.Add(playerSpeedSelection);
+        playerPropertiesContainer.Add(playerHealth);
+        playerPropertiesContainer.Add(playerHealthSelection);
     }
 
 }

@@ -11,13 +11,5 @@ xsi:schemaLocation="
                         UnityEditor.PackageManager.UI ../../../UIElementsSchema/UnityEditor.PackageManager.UI.xsd
 "
 >
-
-  <engine:VisualElement name="playerEditorContainer" class="player-editor-container">
-    <engine:Box name="playerPropertiesContainer" class="player-sub-containers">
-    </engine:Box>
-    <engine:Box name="playerAnimationContainer" class="player-sub-containers">
-    </engine:Box>
-    <engine:Box name="playerSpriteSheetContainer" class="player-sub-containers">
-    </engine:Box>
-  </engine:VisualElement>
+    <engine:Label text="Hello World! From UXML" />
 </engine:UXML>
