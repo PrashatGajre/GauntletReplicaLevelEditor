@@ -1,0 +1,86 @@
+/*Main Menu Style*/
+
+.menu-container {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 5px;
+}
+
+.menu-button-on {
+    font-size: 15px;
+    flex-grow: 1;
+    height: 36px;
+    opacity: 0.5;
+}
+
+.menu-button-off {
+    font-size: 15px;
+    flex-grow: 1;
+    height: 36px;
+    opacity: 1;
+}
+
+.content-container {
+    /*flex-direction: column;*/
+    /*flex-grow: 1;*/
+    height: 858px;
+    background-color: rgb(255, 0, 0);
+}
+
+/*Asset Manager Style*/
+
+.asset-manager-container {
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.asset-sub-containers {
+    flex-direction: column;
+    flex-grow: 1;
+    height: 870px;
+}
+
+.asset-manager-searchfield {
+    align-self:center;
+    flex-grow:1;
+    max-height:20px;
+    max-width:800px;
+    color:rgb(250,250,250);
+    border-color:rgb(250,250,250);
+}
+
+.asset {
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: space-between;
+    align-self: stretch;
+}
+
+
+.asset .highlight .unity-label {
+    color: rgb(0, 255, 255);
+}
+
+/*Player Editor Style*/
+
+.player-editor-container {
+    flex-direction: row-reverse;
+    /*flex-grow: 1;*/
+}
+
+.player-sub-containers {
+    flex-direction: column;
+    flex-grow: 1;
+    height: 870px;
+}
+
+.property-field-container {
+    flex-direction:row;
+}
+
+/*Enemy Editor Style*/
+
+
+
+/*Level Editor Style*/
+

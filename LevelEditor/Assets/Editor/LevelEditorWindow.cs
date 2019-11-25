@@ -5,14 +5,17 @@ using UnityEngine.UIElements;
 using UnityEditor.ShortcutManagement;
 
 
-public class LevelEditor : EditorWindow
+public class LevelEditorWindow : EditorWindow
 {
     #region Attributes
-    static LevelEditor window;
+    static LevelEditorWindow window;
 
     VisualElement levelEditorContent;
     List<Button> menuButtons = new List<Button>();
 
+    Box container;
+
+    //AssetManager assetManager = new AssetManager();
     VisualElement AssetManagerContent;
     VisualElement PlayerEditorContent;
     VisualElement EnemyEditorContent;
@@ -29,7 +32,7 @@ public class LevelEditor : EditorWindow
         {
             window.Close();
         }
-        window = GetWindow<LevelEditor>();
+        window = GetWindow<LevelEditorWindow>();
         window.titleContent = new GUIContent("LevelEditor");
         window.position = new Rect(0, 0, 1200, 900);
         window.minSize = new Vector2(1200, 900);
@@ -41,26 +44,38 @@ public class LevelEditor : EditorWindow
         // Each editor window contains a root VisualElement object
         VisualElement root = rootVisualElement;
         // Import UXML
-        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/LevelEditor.uxml");
+        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/LevelEditorWindow.uxml");
         // A stylesheet can be added to a VisualElement.
         // The style will be applied to the VisualElement and all of its children.
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/LevelEditor.uss");
+        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/LevelEditorWindow.uss");
         root.styleSheets.Add(styleSheet);
        
         //Get the visual editor tree
         levelEditorContent = visualTree.CloneTree();
         root.Add(levelEditorContent);
-        root.Add(AssetManager.GetAssetManager());
-        string[] menuButtonNames = { "menu-button-asset", "menu-button-player", "menu-button-enemy", "menu-button-level"};
-        
-        //Get the menu buttons        
+
+        //Get the container for the window content
+        container = levelEditorContent.Q<Box>("mainContentContainer");
+
+        //Get the menu buttons                
         //Register Click events for the menu buttons
+        string[] menuButtonNames = { "menu-button-asset", "menu-button-player", "menu-button-enemy", "menu-button-level"};
         foreach (string mbname in menuButtonNames)
         {
             Button mb = levelEditorContent.Q<Button>(mbname);
             menuButtons.Add(mb);
             mb.RegisterCallback<MouseUpEvent, Button>(OnMenuButtonClick, mb);
         }
+
+        //Add AssetManager by default
+        AssetManagerContent = AssetManager.GetAssetManager();
+        //AssetManagerContent.visible = false;
+        //container.Add(AssetManagerContent);
+
+        PlayerEditorContent = PlayerEditor.GetPlayerEditor();
+        PlayerEditorContent.visible = false;
+        container.Add(PlayerEditorContent);
+
     }
 
     //When a menu button is clicked
@@ -75,16 +90,29 @@ public class LevelEditor : EditorWindow
                 mb.AddToClassList("menu-button-on");
 
                 //Add to OR Edit these conditions in case the buttons or their name change -- Had kept text of the button, but since we already have the button name information, going with name
+               
                 switch (mb.name)
                 {
                     //Do Something here
                     case "menu-button-asset":
+                        //AssetManagerContent.visible = true;
+                        //PlayerEditorContent.visible = false;
+                        container.Add(AssetManagerContent);
+                        container.Remove(PlayerEditorContent);
                         break;
                     case "menu-button-player":
+                        //AssetManagerContent.visible = false;
+                        //PlayerEditorContent.visible = true;
+                        container.Remove(AssetManagerContent);
+                        container.Add(PlayerEditorContent);
                         break;
                     case "menu-button-enemy":
+                        AssetManagerContent.visible = false;
+                        PlayerEditorContent.visible = false;
                         break;
                     case "menu-button-level":
+                        AssetManagerContent.visible = false;
+                        PlayerEditorContent.visible = false;
                         break;
                     default:
                         Debug.LogError("Change the name of the button OR change the switch case here.");

@@ -17,4 +17,5 @@ xsi:schemaLocation="
     <engine:Button name="menu-button-enemy" text="Enemy Editor" class="menu-button-off"/>
     <engine:Button name="menu-button-level" text="Level Editor" class="menu-button-off"/>
   </engine:Box>
+  <engine:Box name="mainContentContainer" class="content-container"/>
 </engine:UXML>
