@@ -11,5 +11,5 @@ xsi:schemaLocation="
                         UnityEditor.PackageManager.UI ../../../UIElementsSchema/UnityEditor.PackageManager.UI.xsd
 "
 >
-    <engine:Label text="Hello World! From UXML" />
+    
 </engine:UXML>

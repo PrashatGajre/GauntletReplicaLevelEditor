@@ -16,6 +16,8 @@ xsi:schemaLocation="
     <engine:Box name="playerPropertiesContainer" class="player-sub-containers">
     </engine:Box>
     <engine:Box name="playerAnimationContainer" class="player-sub-containers">
+      <engine:Label name="playerAnimationContainerLabel" text="Player Animations"/>
+      
     </engine:Box>
     <engine:Box name="playerSpriteSheetContainer" class="player-sub-containers">
     </engine:Box>

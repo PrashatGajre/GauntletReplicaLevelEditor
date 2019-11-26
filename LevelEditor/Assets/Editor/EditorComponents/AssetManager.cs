@@ -45,7 +45,7 @@ public class AssetManager : VisualElement
         addAssetContainer = assetManager.Q<Box>("addAssetContainer");
 
         //search field
-        var popupSearchField = new ToolbarPopupSearchField();
+        var popupSearchField = new ToolbarSearchField();
         popupSearchField.AddToClassList("asset-manager-searchfield");
         popupSearchField.RegisterValueChangedCallback(OnSearchTextChanged);
         

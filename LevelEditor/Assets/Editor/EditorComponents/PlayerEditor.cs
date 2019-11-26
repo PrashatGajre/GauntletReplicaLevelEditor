@@ -1,7 +1,19 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using UnityEditorInternal;
+
+
+public class AnimationData
+{
+    string name;
+    Rect[] spritepositions;
+
+    public string getName() { return name; }
+}
+
 public class PlayerEditor : VisualElement
 {
     static PlayerEditor instance;
@@ -20,6 +32,8 @@ public class PlayerEditor : VisualElement
 
     static VisualElement playerEditor;
     static Box playerPropertiesContainer;
+    static Box playerAnimationContainer;
+    static List<AnimationData> animationNames = new List<AnimationData>();
     
     public static VisualElement GetPlayerEditor()
     {
@@ -34,6 +48,7 @@ public class PlayerEditor : VisualElement
         playerEditor = visualTree.CloneTree();
 
         playerPropertiesContainer = playerEditor.Q<Box>("playerPropertiesContainer");
+        playerAnimationContainer = playerEditor.Q<Box>("playerAnimationContainer");
 
         var playerSpriteSheet = new Label("Sprite Sheet");
         playerSpriteSheet.name = "playerSpriteSheet";
@@ -56,6 +71,31 @@ public class PlayerEditor : VisualElement
         playerPropertiesContainer.Add(playerSpeedSelection);
         playerPropertiesContainer.Add(playerHealth);
         playerPropertiesContainer.Add(playerHealthSelection);
+
+        animationListContainer = new IMGUIContainer(DrawAnimationList);
+        animationListContainer.onGUIHandler = DrawAnimationList;
+        animationList = new ReorderableList(animationNames, typeof(AnimationData));
+        animationList.drawElementCallback =
+            (Rect rect, int index, bool isActive, bool isFocused) =>
+        {
+            var element = animationList.serializedProperty.GetArrayElementAtIndex(index);
+            var name = element.FindPropertyRelative("name");
+            EditorGUI.LabelField(new Rect(rect.x, rect.y, 100, EditorGUIUtility.singleLineHeight), name.stringValue);
+        };
+        playerAnimationContainer.Add(animationListContainer);
+
     }
+
+
+    IMGUIContainer animationListContainer;
+    ReorderableList animationList;
+    void DrawAnimationList()
+    {
+         if (animationList != null)
+        {
+            animationList.DoLayoutList();
+        }
+    }
+
 
 }

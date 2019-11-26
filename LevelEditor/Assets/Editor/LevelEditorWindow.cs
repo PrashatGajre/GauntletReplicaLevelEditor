@@ -76,6 +76,10 @@ public class LevelEditorWindow : EditorWindow
         //playerEditorContent.visible = false;
         //container.Add(playerEditorContent);
 
+        enemyEditorContent = EnemyEditor.GetEnemyEditor();
+
+        levelEditorContent = LevelEditor.GetLevelEditor();
+
     }
 
     //When a menu button is clicked
