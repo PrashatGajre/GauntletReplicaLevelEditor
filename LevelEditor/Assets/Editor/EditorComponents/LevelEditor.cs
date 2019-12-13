@@ -1,10 +1,16 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using UnityEditorInternal;
+
 public class LevelEditor : VisualElement
 {
     static LevelEditor instance;
+
+    IMGUIContainer animationListContainer;
+    ReorderableList animationList;
 
     public static LevelEditor Instance
     {
@@ -19,7 +25,9 @@ public class LevelEditor : VisualElement
     }
 
     static VisualElement levelEditor;
-    static Box playerPropertiesContainer;
+    static Box levelPropertiesContainer;
+    static Box addLevelContainer;
+    static List<AnimationData> animationNames = new List<AnimationData>();
 
     public static VisualElement GetLevelEditor()
     {
@@ -33,29 +41,24 @@ public class LevelEditor : VisualElement
         var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/LevelEditorWindow.uss");
         levelEditor = visualTree.CloneTree();
 
-        //playerPropertiesContainer = levelEditor.Q<Box>("playerPropertiesContainer");
-
-        //var playerSpriteSheet = new Label("Sprite Sheet");
-        //playerSpriteSheet.name = "playerSpriteSheet";
-        //var playerSpriteSelection = new ObjectField { objectType = typeof(UnityEngine.Texture) };
-        //playerSpriteSelection.name = "playerSpriteSelection";
-
-        //var playerSpeed = new Label("Speed");
-        //playerSpeed.name = "playerSpeed";
-        //var playerSpeedSelection = new FloatField();
-        //playerSpeedSelection.name = "playerSpeedSelection";
-
-        //var playerHealth = new Label("Health");
-        //playerHealth.name = "playerHealth";
-        //var playerHealthSelection = new FloatField();
-        //playerHealthSelection.name = "playerHealthSelection";
-
-        //playerPropertiesContainer.Add(playerSpriteSheet);
-        //playerPropertiesContainer.Add(playerSpriteSelection);
-        //playerPropertiesContainer.Add(playerSpeed);
-        //playerPropertiesContainer.Add(playerSpeedSelection);
-        //playerPropertiesContainer.Add(playerHealth);
-        //playerPropertiesContainer.Add(playerHealthSelection);
+        addLevelContainer = levelEditor.Q<Box>("addLevelContainer");
+        animationListContainer = new IMGUIContainer(DrawAnimationList);
+        animationListContainer.onGUIHandler = DrawAnimationList;
+        animationList = new ReorderableList(animationNames, typeof(AnimationData));
+        animationList.drawElementCallback =
+            (Rect rect, int index, bool isActive, bool isFocused) =>
+            {
+                var element = animationList.serializedProperty.GetArrayElementAtIndex(index);
+                var name = element.FindPropertyRelative("name");
+                EditorGUI.LabelField(new Rect(rect.x, rect.y, 100, EditorGUIUtility.singleLineHeight), name.stringValue);
+            };
+        addLevelContainer.Add(animationListContainer);
     }
-
+    void DrawAnimationList()
+    {
+        if (animationList != null)
+        {
+            animationList.DoLayoutList();
+        }
+    }
 }

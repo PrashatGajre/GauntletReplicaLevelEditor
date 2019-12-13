@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 
-public enum AssetType { Texture, Sound, Font};
+public enum AssetType { Texture, Sound, Font, CustomTileMap};
 public class AssetManager : VisualElement
 {
     static AssetManager instance;
@@ -87,6 +87,9 @@ public class AssetManager : VisualElement
             case AssetType.Font:
                 assetSelectionField.objectType = typeof(Font);
                 break;
+            case AssetType.CustomTileMap:
+                assetSelectionField.objectType = typeof(CustomTileMap);
+                break;
         }
     }
 
@@ -122,6 +125,9 @@ public class AssetManager : VisualElement
                     assetListBoxContainer.Add(CreateAsset(assetSelectionField.value.name));
                     break;
                 case AssetType.Font:
+                    assetListBoxContainer.Add(CreateAsset(assetSelectionField.value.name));
+                    break;
+                case AssetType.CustomTileMap:
                     assetListBoxContainer.Add(CreateAsset(assetSelectionField.value.name));
                     break;
             }

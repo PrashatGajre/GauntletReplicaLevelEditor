@@ -11,5 +11,28 @@ xsi:schemaLocation="
                         UnityEditor.PackageManager.UI ../../../UIElementsSchema/UnityEditor.PackageManager.UI.xsd
 "
 >
+  <engine:VisualElement name="levelManagerContainer" class="level-editor-container">
     
+    <engine:Box name="addLevelContainer" class="level-order-sub-containers">
+      <engine:Label name="levelNameTextLabel" text="Level Name"/>
+      <engine:TextField name="levelNameTextField"/>
+      <engine:Button name="addLevelNameButton" text ="Add Level"/>
+      <engine:ListView name="levelListView" />
+      <engine:Button name="deleteLevelNameButton" text ="Delete Level"/>
+      <engine:Button name="saveLevelNameButton" text ="Save Level"/>
+    </engine:Box>
+    
+    <engine:Box name="levelMapContainer" class="level-map-sub-containers">
+      <engine:Label name="editLevelMapTextLabel" text="Level Map"/>
+    </engine:Box>
+    
+    <engine:Box name="levelTileMapContainer" class="level-sub-containers">
+      <engine:Label name="editLevelTileMapLabel" text="Tile Map"/>
+    </engine:Box>
+    
+    <engine:Box name="levelObjectsContainer" class="level-sub-containers">
+      <engine:Label name="editLevelObjectsLabel" text="Objects"/>
+    </engine:Box>
+    
+  </engine:VisualElement>
 </engine:UXML>

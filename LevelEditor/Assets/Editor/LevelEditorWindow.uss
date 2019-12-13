@@ -76,16 +76,56 @@
 
 /*Enemy Editor Style*/
 
-
-
-/*Level Editor Style*/
-
-
-/*Common*/
-
-.row-elements {
+.enemy-editor-container {
     flex-direction: row;
     flex-grow: 1;
+}
+
+.enemy-sub-containers {
+    flex-direction: column;
+    width: 450px;
+    height: 750px;
+    padding: 20px;
+}
+
+.enemy-sub-sub-containers {
+    flex-direction: row;
+    width: 250px;
+    height: 350px;
+    padding: 25px;
     justify-content: space-between;
     align-self: stretch;
 }
+
+/*Level Editor Style*/
+
+.level-editor-container {
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.level-order-sub-containers {
+    flex-direction: column;
+    width: 250px;
+    height: 750px;
+    /*padding: 20px;*/
+}
+
+
+.level-map-sub-containers {
+    flex-direction: column;
+    width: 650px;
+    height: 750px;
+    padding: 20px;
+}
+
+
+.level-sub-containers {
+    flex-direction: column;
+    width: 250px;
+    height: 750px;
+    padding: 20px;
+}
+
+
+/*Common*/

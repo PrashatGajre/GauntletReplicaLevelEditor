@@ -70,7 +70,7 @@ public class LevelEditorWindow : EditorWindow
         //Add AssetManager by default
         assetManagerContent = AssetManager.GetAssetManager();
         //AssetManagerContent.visible = false;
-        //container.Add(AssetManagerContent);
+        container.Add(assetManagerContent);
 
         playerEditorContent = PlayerEditor.GetPlayerEditor();
         //playerEditorContent.visible = false;
@@ -79,6 +79,7 @@ public class LevelEditorWindow : EditorWindow
         enemyEditorContent = EnemyEditor.GetEnemyEditor();
 
         levelEditorContent = LevelEditor.GetLevelEditor();
+
 
     }
 

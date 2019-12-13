@@ -11,5 +11,26 @@ xsi:schemaLocation="
                         UnityEditor.PackageManager.UI ../../../UIElementsSchema/UnityEditor.PackageManager.UI.xsd
 "
 >
-    
+  <engine:VisualElement name="enemyManagerContainer" class="enemy-editor-container">
+    <engine:Box name="addEnemyContainer" class="enemy-sub-containers">
+      <engine:Label name="enemyNameTextLabel" text="Enemy Name"/>
+      <engine:TextField name="enemyNameTextField"/>
+      <engine:Button name="addEnemyNameButton" text ="Add Enemy"/>
+      <engine:ListView name="enemyListView" />
+      <engine:Button name="deleteEnemyNameButton" text ="Delete Enemy"/>
+      <engine:Button name="saveEnemyNameButton" text ="Save Enemy"/>
+    </engine:Box>
+    <engine:Box name="editEnemyContainer" class="enemy-sub-containers">
+      <engine:Label name="editEnemyFactoryContainerTextLabel" text="Factory Properties"/>
+      <engine:Box name="editEnemyFactoryContainer" class="enemy-sub-sub-containers">
+      </engine:Box>
+      <engine:Label name="editEnemyPropertiesContainerTextLabel" text="Enemy Properties"/>
+      <engine:Box name="editEnemyPropertiesContainer" class="enemy-sub-sub-containers">
+      </engine:Box>
+    </engine:Box>
+    <engine:Box name="enemyAnimationContainer" class="enemy-sub-containers">
+    </engine:Box>
+    <engine:Box name="enemySpritesheetContainer" class="enemy-sub-containers">
+    </engine:Box>
+  </engine:VisualElement>
 </engine:UXML>
