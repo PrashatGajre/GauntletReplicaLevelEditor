@@ -139,7 +139,7 @@
 .level-order-sub-containers {
     flex-direction: column;
     width: 250px;
-    height: 1050px;
+    height: 950px;
     /*padding: 20px;*/
 }
 
@@ -147,7 +147,7 @@
 .level-map-sub-containers {
     flex-direction: column;
     width: 1250px;
-    height: 1050px;
+    height: 950px;
     padding: 20px;
 }
 
@@ -155,7 +155,7 @@
 .level-sub-containers {
     flex-direction: column;
     width: 1250px;
-    height: 1200px;
+    height: 950px;
     padding: 20px;
 }
 
@@ -196,7 +196,7 @@
 
 .height-width-slider {
     height: 21px;
-    width: 234px;
+    width: 300px;
     /*margin-top:2px;*/
     margin-left: 2px;
     margin-right: 2px;

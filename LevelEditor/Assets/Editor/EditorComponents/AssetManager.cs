@@ -36,7 +36,7 @@ public class AssetManager : VisualElement
     static VisualElement assetManager;
     static Box addAssetContainer;
 
-    GameAssets allGameAssets = new GameAssets();
+    GameAssets allGameAssets;
     
     EnumField assetTypeSelection;
     ObjectField assetSelectionField;
@@ -54,6 +54,68 @@ public class AssetManager : VisualElement
 
     void CreateVisualTree()
     {
+        string[]  guids = AssetDatabase.FindAssets("t:GameAssets");
+        foreach (string guid in guids)
+        {
+            //Debug.Log("ScriptObj: " + AssetDatabase.GUIDToAssetPath(guid));
+        }
+
+        if (guids != null || guids.Length > 0)
+        {
+            //allGameAssets = ScriptableObject.CreateInstance<GameAssets>();
+            allGameAssets = (GameAssets)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guids[0]), typeof(GameAssets));
+        }
+        else
+        {
+            if (AssetDatabase.IsValidFolder("Assets/Export"))
+            {
+                //Debug.Log("Exists");
+            }
+            else
+            {
+                string ret;
+
+                ret = AssetDatabase.CreateFolder("Assets", "Export");
+                if (AssetDatabase.GUIDToAssetPath(ret) != "")
+                    Debug.Log("Folder asset created");
+                else
+                    Debug.Log("Couldn't find the GUID for the path");
+            }
+            AssetDatabase.Refresh();
+            if (AssetDatabase.IsValidFolder("Assets/Export/Assets"))
+            {
+                //Debug.Log("Exists");
+            }
+            else
+            {
+                string ret;
+
+                ret = AssetDatabase.CreateFolder("Assets/Export", "Assets");
+                if (AssetDatabase.GUIDToAssetPath(ret) != "")
+                    Debug.Log("Folder asset created");
+                else
+                    Debug.Log("Couldn't find the GUID for the path");
+            }
+            if (AssetDatabase.IsValidFolder("Assets/Export/Assets/Data"))
+            {
+                //Debug.Log("Exists");
+            }
+            else
+            {
+                string ret;
+
+                ret = AssetDatabase.CreateFolder("Assets/Export/Assets", "Data");
+                if (AssetDatabase.GUIDToAssetPath(ret) != "")
+                    Debug.Log("Folder asset created");
+                else
+                    Debug.Log("Couldn't find the GUID for the path");
+            }
+            AssetDatabase.Refresh();
+            allGameAssets = ScriptableObject.CreateInstance<GameAssets>();
+            AssetDatabase.CreateAsset(allGameAssets, "Assets/Export/Data/allGameAssets.asset");
+        }
+
+
         var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Editor/EditorComponents/AssetManager.uxml");
         var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/LevelEditorWindow.uss");
         assetManager = visualTree.CloneTree();
@@ -92,7 +154,20 @@ public class AssetManager : VisualElement
         addAssetContainer.Add(assetListBox);
         addAssetContainer.Add(saveAssetsButton);
 
-        allGameAssets = ScriptableObject.CreateInstance<GameAssets>();
+        #region LoadAssetsFromAssetData
+        foreach (Texture t in allGameAssets.gameTextures)
+        {
+            assetListBoxContainer.Add(CreateAsset(t.name));
+        }
+        foreach (AudioClip ac in allGameAssets.gameAudioClips)
+        {
+            assetListBoxContainer.Add(CreateAsset(ac.name));
+        }
+        foreach (Font f in allGameAssets.gameFonts)
+        {
+            assetListBoxContainer.Add(CreateAsset(f.name));
+        }
+        #endregion
     }
 
     void AssetTypeChange(ChangeEvent<Enum> evt)
@@ -144,14 +219,12 @@ public class AssetManager : VisualElement
 
     void SaveAssets(MouseEventBase<MouseUpEvent> evt)
     {
-
-        AssetDatabase.CreateAsset(allGameAssets, "Assets/Export/Data/allGameAssets.asset");
-
+        
         //Create Destination folder
 
         if (AssetDatabase.IsValidFolder("Assets/Export"))
         {
-            Debug.Log("Exists");
+            //Debug.Log("Exists");
         }
         else
         {
@@ -166,7 +239,7 @@ public class AssetManager : VisualElement
         AssetDatabase.Refresh();
         if (AssetDatabase.IsValidFolder("Assets/Export/Assets"))
         {
-            Debug.Log("Exists");
+            //Debug.Log("Exists");
         }
         else
         {
@@ -184,7 +257,7 @@ public class AssetManager : VisualElement
 
         if (AssetDatabase.IsValidFolder("Assets/Export/Assets/Images"))
         {
-            Debug.Log("Exists");
+            //Debug.Log("Exists");
         }
         else
         {
@@ -200,7 +273,7 @@ public class AssetManager : VisualElement
         {
             if (AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(t), "Assets/Export/Assets/Images/" + t.name + ".png"))
             {
-                Debug.Log("Material asset copied as Assets/Export/Images/" + t.name + ".png");
+                //Debug.Log("Material asset copied as Assets/Export/Images/" + t.name + ".png");
                 AssetInfo a = new AssetInfo();
                 a.Class = "TextureAsset";
                 a.guid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(t));
@@ -223,7 +296,7 @@ public class AssetManager : VisualElement
             }
             else
             {
-                Debug.Log("Couldn't copy the image");
+                //Debug.Log("Couldn't copy the image");
             }
             // Manually refresh the Database to inform of a change
             AssetDatabase.Refresh();
@@ -233,7 +306,7 @@ public class AssetManager : VisualElement
 
         if (AssetDatabase.IsValidFolder("Assets/Export/Assets/Audio"))
         {
-            Debug.Log("Exists");
+            //Debug.Log("Exists");
         }
         else
         {
@@ -249,7 +322,7 @@ public class AssetManager : VisualElement
         {
             if (AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(ac), "Assets/Export/Assets/Audio/" + ac.name + ".mp3"))
             {
-                Debug.Log("Material asset copied as Assets/Export/Audio/" + ac.name + ".mp3");
+                //Debug.Log("Material asset copied as Assets/Export/Audio/" + ac.name + ".mp3");
                 AssetInfo a = new AssetInfo();
                 a.Class = "AudioAsset";
                 a.guid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(ac));
@@ -272,7 +345,7 @@ public class AssetManager : VisualElement
             }
             else
             {
-                Debug.Log("Couldn't copy the audio clip");
+                //Debug.Log("Couldn't copy the audio clip");
             }
             // Manually refresh the Database to inform of a change
             AssetDatabase.Refresh();
@@ -282,7 +355,7 @@ public class AssetManager : VisualElement
 
         if (AssetDatabase.IsValidFolder("Assets/Export/Assets/Fonts"))
         {
-            Debug.Log("Exists");
+            //Debug.Log("Exists");
         }
         else
         {
@@ -298,9 +371,9 @@ public class AssetManager : VisualElement
         {
             if (AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(f), "Assets/Export/Assets/Fonts/" + f.name + ".ttf"))
             {
-                Debug.Log("Material asset copied as Assets/Export/Fonts/" + f.name + ".ttf");
+                //Debug.Log("Material asset copied as Assets/Export/Fonts/" + f.name + ".ttf");
                 AssetInfo a = new AssetInfo();
-                a.Class = "AudioAsset";
+                a.Class = "FontAsset";
                 a.guid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(f));
                 a.path = "..Assets/Export/Fonts/" + f.name + ".ttf";
 
@@ -321,7 +394,7 @@ public class AssetManager : VisualElement
             }
             else
             {
-                Debug.Log("Couldn't copy the font");
+                //Debug.Log("Couldn't copy the font");
             }
             // Manually refresh the Database to inform of a change
             AssetDatabase.Refresh();
@@ -342,7 +415,7 @@ public class AssetManager : VisualElement
                     {
                         if (ve.GetFirstOfType<Label>().text == assetSelectionField.value.name)
                         {
-                            Debug.LogError("An asset of similar name exists.");
+                            //Debug.LogError("An asset of similar name exists.");
                             v.Focus();
                             return;
                         }
@@ -386,41 +459,48 @@ public class AssetManager : VisualElement
         {
             if (asset != null)
             {
-                foreach (VisualElement ve in asset.parent.Children())
+                foreach (VisualElement ve in asset.Children())
                 {
                     if (ve.GetFirstOfType<Label>() != null)
                     {
-                        for (int i = allGameAssets.gameTextures.Count; i>=0; i--)
+                        for (int i = allGameAssets.gameTextures.Count-1; i>=0; i--)
                         {
                             if (ve.GetFirstOfType<Label>().text == allGameAssets.gameTextures[i].name)
                             {
-                                Debug.LogError("REMOVING");
+                                //Debug.LogError("REMOVING");
                                 allGameAssets.gameTextures.RemoveAt(i);
+                                asset.parent.Remove(asset);
+                                EditorUtility.SetDirty(allGameAssets);
                                 break;
                             }
                         }
-                        for (int i = allGameAssets.gameAudioClips.Count; i >= 0; i--)
+                        for (int i = allGameAssets.gameAudioClips.Count-1; i >= 0; i--)
                         {
                             if (ve.GetFirstOfType<Label>().text == allGameAssets.gameAudioClips[i].name)
                             {
-                                Debug.LogError("REMOVING");
+                                //Debug.LogError("REMOVING");
                                 allGameAssets.gameAudioClips.RemoveAt(i);
+                                asset.parent.Remove(asset);
+                                EditorUtility.SetDirty(allGameAssets);
                                 break;
                             }
                         }
-                        for(int i = allGameAssets.gameFonts.Count; i >= 0; i--)
+                        for (int i = allGameAssets.gameFonts.Count-1; i >= 0; i--)
                         {
                             if (ve.GetFirstOfType<Label>().text == allGameAssets.gameFonts[i].name)
                             {
-                                Debug.LogError("REMOVING");
+                                //Debug.LogError("REMOVING");
                                 allGameAssets.gameFonts.RemoveAt(i);
+                                asset.parent.Remove(asset);
+                                EditorUtility.SetDirty(allGameAssets);
                                 break;
                             }   
                         }
                     }
                 }
                 EditorUtility.SetDirty(allGameAssets);
-                asset.parent.Remove(asset);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
             }
         }
     }
@@ -430,47 +510,54 @@ public class AssetManager : VisualElement
 
         if (asset != null)
         {
-            foreach (VisualElement ve in asset.parent.Children())
+            foreach (VisualElement ve in asset.Children())
             {
                 if (ve.GetFirstOfType<Label>() != null)
                 {
-                    for (int i = allGameAssets.gameTextures.Count; i >= 0; i--)
+                    for (int i = allGameAssets.gameTextures.Count-1; i >= 0; i--)
                     {
                         if (ve.GetFirstOfType<Label>().text == allGameAssets.gameTextures[i].name)
                         {
-                            Debug.LogError("REMOVING");
+                            //Debug.LogError("REMOVING");
                             allGameAssets.gameTextures.RemoveAt(i);
+                            asset.parent.Remove(asset);
+                            EditorUtility.SetDirty(allGameAssets);
                             break;
                         }
                     }
-                    for (int i = allGameAssets.gameAudioClips.Count; i >= 0; i--)
+                    for (int i = allGameAssets.gameAudioClips.Count-1; i >= 0; i--)
                     {
                         if (ve.GetFirstOfType<Label>().text == allGameAssets.gameAudioClips[i].name)
                         {
-                            Debug.LogError("REMOVING");
+                            //Debug.LogError("REMOVING");
                             allGameAssets.gameAudioClips.RemoveAt(i);
+                            asset.parent.Remove(asset);
+                            EditorUtility.SetDirty(allGameAssets);
                             break;
                         }
                     }
-                    for (int i = allGameAssets.gameFonts.Count; i >= 0; i--)
+                    for (int i = allGameAssets.gameFonts.Count-1; i >= 0; i--)
                     {
                         if (ve.GetFirstOfType<Label>().text == allGameAssets.gameFonts[i].name)
                         {
-                            Debug.LogError("REMOVING");
+                            //Debug.LogError("REMOVING");
                             allGameAssets.gameFonts.RemoveAt(i);
+                            asset.parent.Remove(asset);
+                            EditorUtility.SetDirty(allGameAssets);
                             break;
                         }
                     }
                 }
             }
             EditorUtility.SetDirty(allGameAssets);
-            asset.parent.Remove(asset);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
     }
 
     public void EditAsset(MouseUpEvent evt, VisualElement asset)
     {
-        Debug.Log("EDIT!");
+        //Debug.Log("EDIT!");
         if (asset != null)
         {
             foreach (VisualElement v in assetListBoxContainer.Children())

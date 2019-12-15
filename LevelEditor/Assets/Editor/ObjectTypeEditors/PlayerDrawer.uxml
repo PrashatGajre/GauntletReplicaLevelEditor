@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+
+xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
+xsi:schemaLocation="
+                        UnityEngine.UIElements ../../../UIElementsSchema/UnityEngine.UIElements.xsd
+                        UnityEditor.UIElements ../../../UIElementsSchema/UnityEditor.UIElements.xsd
+                        UnityEditor.PackageManager.UI ../../../UIElementsSchema/UnityEditor.PackageManager.UI.xsd
+"
+>
+  <engine:Box padding ="50">
+    <engine:Label text="Player Sprite:"/>
+    <editor:ObjectField allow-scene-objects="false" name ="PlayerSpriteObjectSelectionField" binding-path="sprite"></editor:ObjectField>
+    <engine:Label text="Health:"/>
+    <editor:FloatField allow-scene-objects="false" name ="PlayerObjectHealthField" binding-path="health"></editor:FloatField>
+    <engine:Label text="Attack:"/>
+    <editor:FloatField allow-scene-objects="false" name ="PlayerObjectAttackField" binding-path="attack"></editor:FloatField>
+    <engine:Label text="Speed:"/>
+    <editor:FloatField allow-scene-objects="false" name ="PlayerObjectSpeedField" binding-path="speed"></editor:FloatField>
+    <engine:Label text="Projectile:"/>
+    <editor:ObjectField allow-scene-objects="false" name ="PlayerProjectileObjectSelectionField" binding-path="projectile"></editor:ObjectField>
+    <engine:Label text="Collider:"/>
+    <editor:ObjectField allow-scene-objects="false" name ="PlayerColliderObjectSelectionField" binding-path="playerCollider"></editor:ObjectField>
+  </engine:Box>
+</engine:UXML>

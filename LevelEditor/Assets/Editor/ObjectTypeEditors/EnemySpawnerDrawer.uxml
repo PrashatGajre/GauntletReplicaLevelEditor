@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+
+xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
+xsi:schemaLocation="
+                        UnityEngine.UIElements ../../../UIElementsSchema/UnityEngine.UIElements.xsd
+                        UnityEditor.UIElements ../../../UIElementsSchema/UnityEditor.UIElements.xsd
+                        UnityEditor.PackageManager.UI ../../../UIElementsSchema/UnityEditor.PackageManager.UI.xsd
+"
+>
+  <engine:Label text="Sprite Object:"/>
+  <editor:ObjectField allow-scene-objects="false" name ="EnemySpawnerSpriteObjectSelectionField" binding-path="sprite"></editor:ObjectField>
+  <engine:Label text="Spawn Time:"/>
+  <editor:FloatField allow-scene-objects="false" name ="EnemySpawnTimeField" binding-path="spawnTime"></editor:FloatField>
+  <engine:Label text="Enemy Object:"/>
+  <editor:ObjectField allow-scene-objects="false" name ="EnemyObjectSelectionField" binding-path="enemy"></editor:ObjectField>
+  <engine:Label text="Collider:"/>
+  <editor:ObjectField allow-scene-objects="false" name ="SpawnerColliderObjectSelectionField" binding-path="spawnerCollider"></editor:ObjectField>
+</engine:UXML>

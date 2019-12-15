@@ -7,20 +7,22 @@ using UnityEngine;
 [Serializable]
 public class PlayerObject : ScriptableObject
 {
-    [SerializeField]
-    public Texture texture;
-    [SerializeField]
+    //[SerializeField]
+    //public Texture texture;
+    //[SerializeField]
     public Layers layer = Layers.Players;
     [SerializeField]
     public SpriteObject sprite;
-    [SerializeField]
-    public List<AnimationObject> animations;
+    //[SerializeField]
+    //public List<AnimationObject> animations;
     [SerializeField]
     public float health;
     [SerializeField]
-    public int attack;
+    public float speed;
     [SerializeField]
-    public ScriptableObject projectile;
+    public float attack;
+    [SerializeField]
+    public ProjectileObject projectile;
     [SerializeField]
     public CircleColliderObject playerCollider;
 }

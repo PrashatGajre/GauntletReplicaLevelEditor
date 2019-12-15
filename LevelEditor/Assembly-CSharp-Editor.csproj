@@ -74,9 +74,16 @@
     <None Include="Assets\Editor\EditorComponents\PlayerEditor.uxml" />
     <None Include="Assets\Editor\LevelEditorWindow.uxml" />
     <None Include="Assets\Editor\EditorComponents\ObjectManager.uxml" />
+    <None Include="Assets\Editor\ObjectTypeEditors\EnemyDrawer.uxml" />
+    <None Include="Assets\Editor\ObjectTypeEditors\AnimationObjectDrawer.uxml" />
     <None Include="Assets\Editor\ObjectTypeEditors\EnvironmentDrawer.uxml" />
+    <None Include="Assets\Editor\ObjectTypeEditors\PlayerDrawer.uxml" />
+    <None Include="Assets\Editor\ObjectTypeEditors\ProjectileObjectDrawer.uxml" />
     <None Include="Assets\Editor\ObjectTypeEditors\StaticObjectDrawer.uxml" />
+    <None Include="Assets\Editor\ObjectTypeEditors\EnemySpawnerDrawer.uxml" />
     <None Include="Assets\Editor\EditorComponents\LevelEditor.uxml" />
+    <None Include="Assets\Editor\ObjectTypeEditors\PolygonColliderDrawer.uxml" />
+    <None Include="Assets\Editor\ObjectTypeEditors\CircleColliderDrawer.uxml" />
     <None Include="Assets\Editor\LevelEditorWindow.uss" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>D:/Repos/GameEngineFinalProject/LevelEditorUnity/LevelEditor/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>

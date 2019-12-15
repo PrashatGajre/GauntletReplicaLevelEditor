@@ -14,5 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameTextures:
   - {fileID: 2800000, guid: b6f6dc82a6bc9944e934614e517ce65c, type: 3}
-  gameAudioClips: []
-  gameFonts: []
+  - {fileID: 2800000, guid: 8fc77da42ad847641a0093bbd65a0074, type: 3}
+  - {fileID: 2800000, guid: ba031876e06ebb1498ce33f1cee360d4, type: 3}
+  - {fileID: 2800000, guid: 73b581831fb2b7943b6ccd2535cfc108, type: 3}
+  - {fileID: 2800000, guid: 1dad4b0e30944244db83ea1fc4532d66, type: 3}
+  gameAudioClips:
+  - {fileID: 8300000, guid: 5312be4b2ecc2ef4e8846ece7de87885, type: 3}
+  - {fileID: 8300000, guid: 17000a8653406a84f9ab2990b2f67c15, type: 3}
+  - {fileID: 8300000, guid: a57d6428cb7830949b3821240eafd6ed, type: 3}
+  - {fileID: 8300000, guid: 560ada7e06a8cf840aa292246f518229, type: 3}
+  - {fileID: 8300000, guid: d9dae4087b542af48aeff3ea27bfd121, type: 3}
+  - {fileID: 8300000, guid: 40398ff2efbd3e44e9ccc063d87e21ab, type: 3}
+  gameFonts:
+  - {fileID: 12800000, guid: b546b855b3aba2b4a8e49e9bc6c616a2, type: 3}
+  - {fileID: 12800000, guid: 9ed02d917679eb548a48e2f02d9079ae, type: 3}
+  - {fileID: 12800000, guid: 505f8dc5d64863b429cf4b73ecd35b9e, type: 3}
+  - {fileID: 12800000, guid: 1457a2f9d0994924ca2490277945b478, type: 3}
+  - {fileID: 12800000, guid: 6cef25782b0653149bf0decb1e177d67, type: 3}

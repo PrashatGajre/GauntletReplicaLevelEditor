@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0715382f3b7896e4ab509312f6a8583c, type: 3}
+  m_Name: BatSpawnerObject
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 11400000, guid: 00a3e70fcfce04643b9ec3a920d6aa70, type: 2}
+  layer: 2
+  spawnTime: 3
+  enemy: {fileID: 11400000, guid: f28739afd01492f42a5659f2b21fa16a, type: 2}
+  spawnerCollider: {fileID: 11400000, guid: 9ff29499327c9104fa999b5e05423114, type: 2}

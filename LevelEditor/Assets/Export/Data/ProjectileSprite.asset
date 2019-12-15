@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 719a5721965e47c49870055fb3798cbf, type: 3}
-  m_Name: Sprite-01
+  m_Name: ProjectileSprite
   m_EditorClassIdentifier: 
-  sprite: {fileID: 8647823593821616703, guid: 07b548c214dac5d4287e093e28f275d0, type: 3}
+  sprite: {fileID: -8084540536872135226, guid: ba031876e06ebb1498ce33f1cee360d4, type: 3}
   layer: 0
   x: 0
-  y: 0
-  width: 0
-  height: 0
+  y: 128
+  width: 64
+  height: 64

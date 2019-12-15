@@ -14,8 +14,8 @@ xsi:schemaLocation="
   <engine:VisualElement name="assetManagerContainer" class="asset-manager-container">
     <engine:Box name="addAssetContainer" class="asset-sub-containers">
     </engine:Box>
-    <engine:Box name="editAssetContainer" class="asset-sub-containers">
+    <!--<engine:Box name="editAssetContainer" class="asset-sub-containers">
       
-    </engine:Box>
+    </engine:Box>-->
   </engine:VisualElement>
 </engine:UXML>

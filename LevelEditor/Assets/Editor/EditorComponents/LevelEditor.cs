@@ -29,7 +29,7 @@ public class LevelEditor : VisualElement
     static Box levelPropertiesContainer;
     static Box addLevelContainer;
 
-    List<string> layers = new List<string> { "Map", "Objects", "Enemies", "Player" };
+    List<string> layers = new List<string> { "Environment", "StaticObjects", "Enemies", "Players"/*, "Effects", "UI", "UIEffects" */};
     ObjectField textureObjectField;
     PopupField<string> layersPopupField;
     Drawable selectedDrawable;
@@ -59,16 +59,16 @@ public class LevelEditor : VisualElement
         addLevelContainer.Add(levelListContainer);
 
         MapLayer map = new MapLayer();
-        map.name = "Map";
+        map.name = "Environment";
         map.drawRects = new Dictionary<Vector2Int, Drawable>();
         MapLayer objects = new MapLayer();
-        objects.name = "Objects";
+        objects.name = "StaticObjects";
         objects.drawRects = new Dictionary<Vector2Int, Drawable>();
         MapLayer enemies = new MapLayer();
         enemies.name = "Enemies";
         enemies.drawRects = new Dictionary<Vector2Int, Drawable>();
         MapLayer player = new MapLayer();
-        player.name = "Player";
+        player.name = "Players";
         player.drawRects = new Dictionary<Vector2Int, Drawable>();
 
         layersToDraw.Add(map);
@@ -83,7 +83,7 @@ public class LevelEditor : VisualElement
         VisualElement levelPropertyContainer = levelEditor.Q<Box>("PropertiesBarRow1");
         // Create a new field and assign it its value.
         layersPopupField = new PopupField<string>("Select Layer to Paint", layers, 0);
-        layersPopupField.value = "Map";
+        layersPopupField.value = "Environment";
         layersPopupField.AddToClassList("height-width-slider");
         levelPropertyContainer.Add(layersPopupField);
 
@@ -208,7 +208,7 @@ public class LevelEditor : VisualElement
             foreach (KeyValuePair<Vector2Int, Drawable> d in m.drawRects)
             {
                 Texture TextureToDraw = (Texture)AssetDatabase.LoadAssetAtPath(d.Value.assetPath, typeof(Texture));
-                Rect drawRect = new Rect(d.Key, new Vector2(32, 32));
+                Rect drawRect = new Rect(d.Key, new Vector2((cell/2), (cell/2)));
                 Rect destRect = d.Value.texCoords;
 
                 destRect.x /= TextureToDraw.width;
@@ -257,12 +257,12 @@ public class LevelEditor : VisualElement
     {
         if ((evt.localMousePosition.x < mapElement.contentRect.width - 15) && (evt.localMousePosition.y < mapElement.contentRect.height - 15))
         {
-            int mapCellStartX = Mathf.FloorToInt(evt.localMousePosition.x + mapScrollPosition.x) / 32;
-            int mapCellStartY = Mathf.FloorToInt(evt.localMousePosition.y + mapScrollPosition.y) / 32;
+            int mapCellStartX = Mathf.FloorToInt(evt.localMousePosition.x + mapScrollPosition.x) / (cell/2);
+            int mapCellStartY = Mathf.FloorToInt(evt.localMousePosition.y + mapScrollPosition.y) / (cell/2);
             //Debug.Log(evt.localMousePosition + mapScrollPosition);
-            //Debug.Log((evt.localMousePosition + mapScrollPosition) / 32);
+            //Debug.Log((evt.localMousePosition + mapScrollPosition) / (cell/2));
 
-            Vector2Int drawPos = new Vector2Int(mapCellStartX * 32, mapCellStartY * 32);
+            Vector2Int drawPos = new Vector2Int(mapCellStartX * (cell/2), mapCellStartY * (cell/2));
             foreach (MapLayer ml in layersToDraw)
             {
                 if (ml.name == layersPopupField.value)
@@ -320,8 +320,8 @@ public class LevelEditor : VisualElement
         {
             if ((evt.localMousePosition.x < tileElement.contentRect.width - 15) && (evt.localMousePosition.y < tileElement.contentRect.height - 15))
             {
-                int TileStartX = (Mathf.FloorToInt((evt.localMousePosition.x + tileScrollPosition.x) / 64) * 64);
-                int TileStartY = (Mathf.FloorToInt((evt.localMousePosition.y + tileScrollPosition.y) / 64) * 64);
+                int TileStartX = (Mathf.FloorToInt((evt.localMousePosition.x + tileScrollPosition.x) / tileCell) * tileCell);
+                int TileStartY = (Mathf.FloorToInt((evt.localMousePosition.y + tileScrollPosition.y) / tileCell) * tileCell);
 
                 //Debug.Log(TileStartX +":"+TileStartY);
                 if ((TileStartX < ((Texture)textureObjectField.value).width) && (TileStartY < ((Texture)textureObjectField.value).height))
@@ -329,7 +329,7 @@ public class LevelEditor : VisualElement
                     //Debug.Log("within Bounds : " + TileStartX + ":" + TileStartY + " / " + ((Texture)textureObjectField.value).width + " : " + ((Texture)textureObjectField.value).height);
                     selectedDrawable.assetPath = AssetDatabase.GetAssetPath(textureObjectField.value);
                     //Debug.Log(selectedDrawable.assetPath);
-                    selectedDrawable.texCoords = new Rect(TileStartX, TileStartY + 64, tileCell, tileCell);
+                    selectedDrawable.texCoords = new Rect(TileStartX, TileStartY + tileCell, tileCell, tileCell);
                 }
                 else
                 {

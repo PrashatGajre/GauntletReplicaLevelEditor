@@ -18,8 +18,8 @@ public class LevelEditorWindow : EditorWindow
     //AssetManager assetManager = new AssetManager();
     VisualElement assetManagerContent;
     VisualElement objectManagerContent;
-    VisualElement playerEditorContent;
-    VisualElement enemyEditorContent;
+    //VisualElement playerEditorContent;
+    //VisualElement enemyEditorContent;
     VisualElement levelEditorContent;
 
     #endregion
@@ -36,15 +36,15 @@ public class LevelEditorWindow : EditorWindow
         window = GetWindow<LevelEditorWindow>();
         window.titleContent = new GUIContent("LevelEditor");
 
-        window.position = new Rect(0, 0, 1920, 1200);
-        window.minSize = new Vector2(1920, 1200);
-        window.maxSize = new Vector2(1920, 1200);
+        window.position = new Rect(0, 0, 1600, 1000);
+        window.minSize = new Vector2(1600, 1000);
+        window.maxSize = new Vector2(1600, 1000);
 
         //Create Destination folder
 
         if (AssetDatabase.IsValidFolder("Assets/Export"))
         {
-            Debug.Log("Exists");
+            //Debug.Log("Exists");
         }
         else
         {
@@ -62,7 +62,7 @@ public class LevelEditorWindow : EditorWindow
 
         if (AssetDatabase.IsValidFolder("Assets/Export/Data"))
         {
-            Debug.Log("Exists");
+            //Debug.Log("Exists");
         }
         else
         {
@@ -97,7 +97,7 @@ public class LevelEditorWindow : EditorWindow
 
         //Get the menu buttons                
         //Register Click events for the menu buttons
-        string[] menuButtonNames = { "menu-button-asset", "menu-button-object", "menu-button-player", "menu-button-enemy", "menu-button-level"};
+        string[] menuButtonNames = { "menu-button-asset", "menu-button-object", /*"menu-button-player", "menu-button-enemy",*/ "menu-button-level"};
         foreach (string mbname in menuButtonNames)
         {
             Button mb = levelEditorWindowContent.Q<Button>(mbname);
@@ -112,11 +112,11 @@ public class LevelEditorWindow : EditorWindow
 
         objectManagerContent = ObjectManager.GetObjectManager();
 
-        playerEditorContent = PlayerEditor.GetPlayerEditor();
+        //playerEditorContent = PlayerEditor.GetPlayerEditor();
         //playerEditorContent.visible = false;
         //container.Add(playerEditorContent);
 
-        enemyEditorContent = EnemyEditor.GetEnemyEditor();
+        //enemyEditorContent = EnemyEditor.GetEnemyEditor();
 
         levelEditorContent = LevelEditor.GetLevelEditor();
 
@@ -144,14 +144,14 @@ public class LevelEditorWindow : EditorWindow
                 {
                     container.Remove(objectManagerContent);
                 }
-                if (container.Contains(playerEditorContent))
-                {
-                    container.Remove(playerEditorContent);
-                }
-                if (container.Contains(enemyEditorContent))
-                {
-                    container.Remove(enemyEditorContent);
-                }
+                //if (container.Contains(playerEditorContent))
+                //{
+                //    container.Remove(playerEditorContent);
+                //}
+                //if (container.Contains(enemyEditorContent))
+                //{
+                //    container.Remove(enemyEditorContent);
+                //}
                 if (container.Contains(levelEditorContent))
                 {
                     container.Remove(levelEditorContent);
@@ -168,14 +168,14 @@ public class LevelEditorWindow : EditorWindow
                         container.Add(objectManagerContent);
                        
                         break;
-                    case "menu-button-player":
-                        container.Add(playerEditorContent);
+                    //case "menu-button-player":
+                    //    container.Add(playerEditorContent);
                         
-                        break;
-                    case "menu-button-enemy":
-                        container.Add(enemyEditorContent);  
+                    //    break;
+                    //case "menu-button-enemy":
+                    //    container.Add(enemyEditorContent);  
                        
-                        break;
+                    //    break;
                     case "menu-button-level":
                         container.Add(levelEditorContent);
                        
@@ -196,6 +196,9 @@ public class LevelEditorWindow : EditorWindow
 
     public static void RepaintWindow()
     {
-        window.Repaint();
+        if (window != null)
+        {
+            window.Repaint();
+        }
     }
 }

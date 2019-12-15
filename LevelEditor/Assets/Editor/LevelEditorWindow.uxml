@@ -14,8 +14,8 @@ xsi:schemaLocation="
   <engine:Box name="menuContainer" class="menu-container">
     <engine:Button name="menu-button-asset" text="Asset Manager" class="menu-button-on"/>
     <engine:Button name="menu-button-object" text="Object Manager" class="menu-button-off"/>
-    <engine:Button name="menu-button-player" text="Player Editor" class="menu-button-off" />
-    <engine:Button name="menu-button-enemy" text="Enemy Editor" class="menu-button-off"/>
+    <!--<engine:Button name="menu-button-player" text="Player Editor" class="menu-button-off" />
+    <engine:Button name="menu-button-enemy" text="Enemy Editor" class="menu-button-off"/>-->
     <engine:Button name="menu-button-level" text="Level Editor" class="menu-button-off"/>
   </engine:Box>
   <engine:Box name="mainContentContainer" class="content-container"/>

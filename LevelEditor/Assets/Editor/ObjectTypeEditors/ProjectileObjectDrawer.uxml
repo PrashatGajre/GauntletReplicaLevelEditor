@@ -11,10 +11,10 @@ xsi:schemaLocation="
                         UnityEditor.PackageManager.UI ../../../UIElementsSchema/UnityEditor.PackageManager.UI.xsd
 "
 >
-  <engine:Box padding ="50">
-    <engine:Label text="Sprite:"/>
-    <editor:ObjectField allow-scene-objects="false" name ="SpriteImageObjectSelectionField" binding-path="sprite"></editor:ObjectField>
-    <!--<editor:EnumField type ="Layer" name="SpriteLayerEnumField" binding-path="layer"></editor:EnumField>-->
-    <!--<editor:ObjectField allow-scene-objects="false" name ="SpriteColliderObjectSelectionField" binding-path="collider"></editor:ObjectField>-->
-  </engine:Box>
+  <engine:Label text="Projectile Sprite:"/>
+  <editor:ObjectField allow-scene-objects="false" name ="ProjectileSpriteObjectSelectionField" binding-path="sprite"></editor:ObjectField>
+  <engine:Label text="Projectile Speed:"/>
+  <editor:FloatField allow-scene-objects="false" name ="ProjectileSpeedField" binding-path="speed"></editor:FloatField>
+  <engine:Label text="Projectile Collider:"/>
+  <editor:ObjectField allow-scene-objects="false" name ="ProjectileColliderObjectSelectionField" binding-path="projectileCollider"></editor:ObjectField>
 </engine:UXML>

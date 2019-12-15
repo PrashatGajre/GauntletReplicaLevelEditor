@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 719a5721965e47c49870055fb3798cbf, type: 3}
-  m_Name: Sprite-01
+  m_Script: {fileID: 11500000, guid: 273c36fb0c425e3419a8e54808d7d719, type: 3}
+  m_Name: WhiteProjectile
   m_EditorClassIdentifier: 
-  sprite: {fileID: 8647823593821616703, guid: 07b548c214dac5d4287e093e28f275d0, type: 3}
-  layer: 0
-  x: 0
-  y: 0
-  width: 0
-  height: 0
+  sprite: {fileID: 11400000, guid: 3b4b4501bbf6d584696e50c51b93a970, type: 2}
+  speed: 12
+  projectileCollider: {fileID: 11400000, guid: 0df0e1fb738655242b355be13b83a251, type: 2}

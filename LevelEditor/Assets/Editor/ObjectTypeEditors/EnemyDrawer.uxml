@@ -12,10 +12,13 @@ xsi:schemaLocation="
 "
 >
   <engine:Box padding ="50">
-    <engine:Label text="Sprite Object:"/>
-    <editor:ObjectField allow-scene-objects="false" name ="SpriteImageObjectSelectionField" binding-path="sprite"></editor:ObjectField>
-    <!--<editor:EnumField type ="Layer" name="SpriteLayerEnumField" binding-path="layer"></editor:EnumField>-->
+    <engine:Label text="Enemy Sprite:"/>
+    <editor:ObjectField allow-scene-objects="false" name ="EnemySpriteObjectSelectionField" binding-path="sprite"></editor:ObjectField>
+    <engine:Label text="Health:"/>
+    <editor:FloatField allow-scene-objects="false" name ="EnemyObjectHealthField" binding-path="health"></editor:FloatField>
+    <engine:Label text="Attack:"/>
+    <editor:FloatField allow-scene-objects="false" name ="EnemyObjectAttackField" binding-path="attack"></editor:FloatField>
     <engine:Label text="Collider:"/>
-    <editor:ObjectField allow-scene-objects="false" name ="SpriteColliderObjectSelectionField" binding-path="collider"></editor:ObjectField>
+    <editor:ObjectField allow-scene-objects="false" name ="EnemyColliderObjectSelectionField" binding-path="enemyCollider"></editor:ObjectField>
   </engine:Box>
 </engine:UXML>

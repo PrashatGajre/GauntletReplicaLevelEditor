@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 719a5721965e47c49870055fb3798cbf, type: 3}
-  m_Name: Sprite-01
+  m_Script: {fileID: 11500000, guid: 3ade340198c2a5c49b999ab0ea8862ac, type: 3}
+  m_Name: BarrelObject
   m_EditorClassIdentifier: 
-  sprite: {fileID: 8647823593821616703, guid: 07b548c214dac5d4287e093e28f275d0, type: 3}
-  layer: 0
-  x: 0
-  y: 0
-  width: 0
-  height: 0
+  sprite: {fileID: 11400000, guid: 0f4c106399d344f4aacde54f3b00fba9, type: 2}
+  layer: 1
+  collider: {fileID: 11400000, guid: dc3d49484e10d9b4f997a39ba3c9d0a6, type: 2}

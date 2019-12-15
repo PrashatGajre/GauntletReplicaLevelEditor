@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 719a5721965e47c49870055fb3798cbf, type: 3}
   m_Name: Sprite-00
   m_EditorClassIdentifier: 
-  sprite: {fileID: 8647823593821616703, guid: 8fc77da42ad847641a0093bbd65a0074, type: 3}
+  sprite: {fileID: -1085711696175172977, guid: 8fc77da42ad847641a0093bbd65a0074, type: 3}
   layer: 0
   x: 0
   y: 0
-  size: 0
+  width: 0
+  height: 0

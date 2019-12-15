@@ -27,9 +27,9 @@ xsi:schemaLocation="
       <engine:Box name="editObjectSelectionContainer">
       </engine:Box>
     </engine:Box>
-    <engine:Box name="objectAnimationContainer" class="object-sub-containers">
+    <!--<engine:Box name="objectAnimationContainer" class="object-sub-containers">
     </engine:Box>
     <engine:Box name="objectSpritesheetContainer" class="object-sub-containers">
-    </engine:Box>
+    </engine:Box>-->
   </engine:VisualElement>
 </engine:UXML>

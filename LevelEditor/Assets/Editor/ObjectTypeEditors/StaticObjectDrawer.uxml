@@ -12,8 +12,10 @@ xsi:schemaLocation="
 "
 >
   <engine:Box padding ="50">
+    <engine:Label text="Sprite Object:"/>
     <editor:ObjectField allow-scene-objects="false" name ="SpriteImageObjectSelectionField" binding-path="sprite"></editor:ObjectField>
     <!--<editor:EnumField type ="Layer" name="SpriteLayerEnumField" binding-path="layer"></editor:EnumField>-->
+    <engine:Label text="Collider:"/>
     <editor:ObjectField allow-scene-objects="false" name ="SpriteColliderObjectSelectionField" binding-path="collider"></editor:ObjectField>
   </engine:Box>
 </engine:UXML>

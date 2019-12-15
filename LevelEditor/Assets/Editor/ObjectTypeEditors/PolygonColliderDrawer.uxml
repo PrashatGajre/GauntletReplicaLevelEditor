@@ -12,9 +12,11 @@ xsi:schemaLocation="
 "
 >
   <engine:Box padding ="50">
-    <engine:Label text="Sprite:"/>
-    <editor:ObjectField allow-scene-objects="false" name ="SpriteImageObjectSelectionField" binding-path="sprite"></editor:ObjectField>
-    <!--<editor:EnumField type ="Layer" name="SpriteLayerEnumField" binding-path="layer"></editor:EnumField>-->
-    <!--<editor:ObjectField allow-scene-objects="false" name ="SpriteColliderObjectSelectionField" binding-path="collider"></editor:ObjectField>-->
+    <engine:Label text="Height:"/>
+    <editor:FloatField allow-scene-objectSprites="false" name ="PolygonColliderHeightField" binding-path="height"></editor:FloatField>
+    <engine:Label text="Width:"/>
+    <editor:FloatField allow-scene-objects="false" name ="PolygonColliderWidthField" binding-path="width"></editor:FloatField>
+    <engine:Label text="Is Trigger:"/>
+    <engine:Toggle allow-scene-objects="false" name ="PolygonColliderSetTrigger" binding-path="isTrigger"></engine:Toggle>
   </engine:Box>
 </engine:UXML>
