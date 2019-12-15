@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e35c0102107caeb40aa6b0fca6bec1d0, type: 3}
+  m_Name: Wall1
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 11400000, guid: 3b762596e201bb346a335ab3fa48321d, type: 2}
+  collider: {fileID: 11400000, guid: dc3d49484e10d9b4f997a39ba3c9d0a6, type: 2}

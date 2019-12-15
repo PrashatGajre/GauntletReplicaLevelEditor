@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+
+xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
+xsi:schemaLocation="
+                        UnityEngine.UIElements ../../../UIElementsSchema/UnityEngine.UIElements.xsd
+                        UnityEditor.UIElements ../../../UIElementsSchema/UnityEditor.UIElements.xsd
+                        UnityEditor.PackageManager.UI ../../../UIElementsSchema/UnityEditor.PackageManager.UI.xsd
+"
+>
+  <engine:Box padding ="50">
+    <editor:ObjectField allow-scene-objects="false" name ="SpriteImageObjectSelectionField" binding-path="sprite"></editor:ObjectField>
+    <!--<editor:EnumField type ="Layer" name="SpriteLayerEnumField" binding-path="layer"></editor:EnumField>-->
+    <editor:ObjectField allow-scene-objects="false" name ="SpriteColliderObjectSelectionField" binding-path="collider"></editor:ObjectField>
+  </engine:Box>
+</engine:UXML>

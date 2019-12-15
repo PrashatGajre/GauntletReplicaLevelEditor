@@ -23,7 +23,7 @@
 .content-container {
     /*flex-direction: column;*/
     /*flex-grow: 1;*/
-    height: 848px;
+    height: 1100px;
     background-color: rgb(255, 0, 0);
     padding:5px;
 }
@@ -52,8 +52,17 @@
 }
 
 
+.row-elements {
+    flex-direction: row;
+    justify-content: space-between;
+    align-self: stretch;
+}
 .row-elements .highlight .unity-label {
     color: rgb(255, 255, 0);
+}
+
+.row-elements:focus {
+    background-color: #229;
 }
 
 /*Player Editor Style*/
@@ -72,6 +81,29 @@
 
 .property-field-container {
     flex-direction:row;
+}
+
+/*Object Editor Style*/
+
+.object-editor-container {
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.object-sub-containers {
+    flex-direction: column;
+    width: 450px;
+    height: 750px;
+    padding: 20px;
+}
+
+.object-sub-sub-containers {
+    flex-direction: row;
+    width: 250px;
+    height: 350px;
+    padding: 25px;
+    justify-content: space-between;
+    align-self: stretch;
 }
 
 /*Enemy Editor Style*/
@@ -107,24 +139,100 @@
 .level-order-sub-containers {
     flex-direction: column;
     width: 250px;
-    height: 750px;
+    height: 1050px;
     /*padding: 20px;*/
 }
 
 
 .level-map-sub-containers {
     flex-direction: column;
-    width: 650px;
-    height: 750px;
+    width: 1250px;
+    height: 1050px;
     padding: 20px;
 }
 
 
 .level-sub-containers {
     flex-direction: column;
-    width: 250px;
-    height: 750px;
+    width: 1250px;
+    height: 1200px;
     padding: 20px;
+}
+
+
+/*Level Map Editor*/
+
+
+.property-bar {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    /*margin-left: 5px;*/
+    /*margin-right: 5px;*/
+    padding: 10px;
+    height: 70px;
+    width: 1190px;
+    flex-direction: column;
+    flex-grow: 1.0;
+}
+
+.property-bar-element {
+    height: 30px;
+    /*width: 1190px;*/
+    align-content: center;
+    padding-top: 5px;
+    /*vertical-align:middle;*/
+    flex-grow: 1.0;
+    flex-direction: row;
+}
+
+.property-bar-element2 {
+    height: 20px;
+    /*width: 1190px;*/
+    align-content: center;
+    /*vertical-align:middle;*/
+    /*flex-grow:1.0;*/
+    flex-direction: row;
+}
+
+.height-width-slider {
+    height: 21px;
+    width: 234px;
+    /*margin-top:2px;*/
+    margin-left: 2px;
+    margin-right: 2px;
+    padding: 0px 10px 0px 10px;
+}
+
+.window-sub-container {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 900px;
+    width: 1170px;
+    padding: 5px;
+    align-content: center;
+    flex-direction: row;
+}
+
+.height-width-intfield {
+    height: 15px;
+    width: 45px;
+}
+
+.level-map-container {
+    height: 810px;
+    width: 750px;
+}
+
+.level-map-sub-container {
+    height: 810px;
+    width: 720px;
+}
+
+.tile-map-container {
+    height: 810px;
+    width: 420px;
 }
 
 

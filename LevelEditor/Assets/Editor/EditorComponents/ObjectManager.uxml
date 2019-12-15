@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+
+xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
+xsi:schemaLocation="
+                        UnityEngine.UIElements ../../../UIElementsSchema/UnityEngine.UIElements.xsd
+                        UnityEditor.UIElements ../../../UIElementsSchema/UnityEditor.UIElements.xsd
+                        UnityEditor.PackageManager.UI ../../../UIElementsSchema/UnityEditor.PackageManager.UI.xsd
+"
+>
+  <engine:VisualElement name="objectManagerContainer" class="object-editor-container">
+    <engine:Box name="addObjectContainer" class="object-sub-containers">
+      <engine:Box name="addObjectTypeContainer" height="25" flex="1">
+        
+      </engine:Box>
+      <engine:Label name="objectNameTextLabel" text="Object Name"/>
+      <engine:TextField name="objectNameTextField"/>
+      <engine:Button name="addObjectNameButton" text ="Add Object"/>
+      <engine:ListView name="objectListView" />
+      <!--<engine:Button name="deleteObjectNameButton" text ="Delete Object"/>-->
+      <engine:Button name="saveObjectNameButton" text ="Save Object"/>
+    </engine:Box>
+    <engine:Box name="editObjectContainer" class="object-sub-containers">
+      <engine:Box name="editObjectSelectionContainer">
+      </engine:Box>
+    </engine:Box>
+    <engine:Box name="objectAnimationContainer" class="object-sub-containers">
+    </engine:Box>
+    <engine:Box name="objectSpritesheetContainer" class="object-sub-containers">
+    </engine:Box>
+  </engine:VisualElement>
+</engine:UXML>

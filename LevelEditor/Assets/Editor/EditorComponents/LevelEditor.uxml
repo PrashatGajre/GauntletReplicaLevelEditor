@@ -24,15 +24,39 @@ xsi:schemaLocation="
     
     <engine:Box name="levelMapContainer" class="level-map-sub-containers">
       <engine:Label name="editLevelMapTextLabel" text="Level Map"/>
+      <engine:Box name="PropertiesBar" class="property-bar">
+        <engine:Box name="PropertiesBarRow1" class="property-bar-element">
+          <engine:SliderInt label=" Map Width: " name="MapWidthSlider" low-value="32" high-value="128" page-size="1" value="64" class="height-width-slider"/>
+          <editor:IntegerField label="" name="mapWidthField" value ="64" class="height-width-intfield"/>
+          <engine:SliderInt label="Map Height: " name="MapHeightSlider" low-value="32" high-value="128" page-size="1" value="64" class="height-width-slider"/>
+          <editor:IntegerField label="" name="mapHeightField" value ="64" class="height-width-intfield"/>
+
+        </engine:Box>
+        <engine:Box name="PropertiesBarRow2" class="property-bar-element2">
+          <engine:Label name="InstructionLabel" text="Press 'Shift' and Left click to erase."/>
+        </engine:Box>
+      </engine:Box>
+
+      <engine:Box name="RowContainer" class="window-sub-container">
+
+        <engine:Box name ="LevelMapContainer" class="level-map-container">
+
+        </engine:Box>
+        <engine:Box name ="TileMapContainer" class="tile-map-container">
+
+        </engine:Box>
+
+      </engine:Box>
+
     </engine:Box>
     
-    <engine:Box name="levelTileMapContainer" class="level-sub-containers">
+    <!--<engine:Box name="levelTileMapContainer" class="level-sub-containers">
       <engine:Label name="editLevelTileMapLabel" text="Tile Map"/>
     </engine:Box>
     
     <engine:Box name="levelObjectsContainer" class="level-sub-containers">
       <engine:Label name="editLevelObjectsLabel" text="Objects"/>
-    </engine:Box>
+    </engine:Box>-->
     
   </engine:VisualElement>
 </engine:UXML>

@@ -17,6 +17,7 @@ public class LevelEditorWindow : EditorWindow
 
     //AssetManager assetManager = new AssetManager();
     VisualElement assetManagerContent;
+    VisualElement objectManagerContent;
     VisualElement playerEditorContent;
     VisualElement enemyEditorContent;
     VisualElement levelEditorContent;
@@ -34,9 +35,46 @@ public class LevelEditorWindow : EditorWindow
         }
         window = GetWindow<LevelEditorWindow>();
         window.titleContent = new GUIContent("LevelEditor");
-        window.position = new Rect(0, 0, 1200, 900);
-        window.minSize = new Vector2(1200, 900);
-        window.maxSize = new Vector2(1200, 900);
+
+        window.position = new Rect(0, 0, 1920, 1200);
+        window.minSize = new Vector2(1920, 1200);
+        window.maxSize = new Vector2(1920, 1200);
+
+        //Create Destination folder
+
+        if (AssetDatabase.IsValidFolder("Assets/Export"))
+        {
+            Debug.Log("Exists");
+        }
+        else
+        {
+            string ret;
+
+            ret = AssetDatabase.CreateFolder("Assets", "Export");
+            if (AssetDatabase.GUIDToAssetPath(ret) != "")
+                Debug.Log("Folder asset created");
+            else
+                Debug.Log("Couldn't find the GUID for the path");
+        }
+        AssetDatabase.Refresh();
+
+        //Create Intermediate Data folder
+
+        if (AssetDatabase.IsValidFolder("Assets/Export/Data"))
+        {
+            Debug.Log("Exists");
+        }
+        else
+        {
+            string ret;
+
+            ret = AssetDatabase.CreateFolder("Assets/Export", "Data");
+            if (AssetDatabase.GUIDToAssetPath(ret) != "")
+                Debug.Log("Folder asset created");
+            else
+                Debug.Log("Couldn't find the GUID for the path");
+        }
+        AssetDatabase.Refresh();
     }
 
     public void OnEnable()
@@ -59,7 +97,7 @@ public class LevelEditorWindow : EditorWindow
 
         //Get the menu buttons                
         //Register Click events for the menu buttons
-        string[] menuButtonNames = { "menu-button-asset", "menu-button-player", "menu-button-enemy", "menu-button-level"};
+        string[] menuButtonNames = { "menu-button-asset", "menu-button-object", "menu-button-player", "menu-button-enemy", "menu-button-level"};
         foreach (string mbname in menuButtonNames)
         {
             Button mb = levelEditorWindowContent.Q<Button>(mbname);
@@ -71,6 +109,8 @@ public class LevelEditorWindow : EditorWindow
         assetManagerContent = AssetManager.GetAssetManager();
         //AssetManagerContent.visible = false;
         container.Add(assetManagerContent);
+
+        objectManagerContent = ObjectManager.GetObjectManager();
 
         playerEditorContent = PlayerEditor.GetPlayerEditor();
         //playerEditorContent.visible = false;
@@ -100,6 +140,10 @@ public class LevelEditorWindow : EditorWindow
                 {
                     container.Remove(assetManagerContent);
                 }
+                if (container.Contains(objectManagerContent))
+                {
+                    container.Remove(objectManagerContent);
+                }
                 if (container.Contains(playerEditorContent))
                 {
                     container.Remove(playerEditorContent);
@@ -117,9 +161,11 @@ public class LevelEditorWindow : EditorWindow
                 {
                     //Do Something here
                     case "menu-button-asset":
-                        //AssetManagerContent.visible = true;
-                        //PlayerEditorContent.visible = false;
                         container.Add(assetManagerContent);
+                       
+                        break;
+                    case "menu-button-object":
+                        container.Add(objectManagerContent);
                        
                         break;
                     case "menu-button-player":
@@ -145,5 +191,11 @@ public class LevelEditorWindow : EditorWindow
                 mb.AddToClassList("menu-button-off");
             }
         }
+    }
+
+
+    public static void RepaintWindow()
+    {
+        window.Repaint();
     }
 }

@@ -65,12 +65,17 @@
     <Compile Include="Assets\Editor\EditorComponents\AssetManager.cs" />
     <Compile Include="Assets\Editor\EditorComponents\EnemyEditor.cs" />
     <Compile Include="Assets\Editor\EditorComponents\LevelEditor.cs" />
+    <Compile Include="Assets\Editor\EditorComponents\ObjectManager.cs" />
     <Compile Include="Assets\Editor\EditorComponents\PlayerEditor.cs" />
     <Compile Include="Assets\Editor\LevelEditorWindow.cs" />
     <None Include="Assets\Editor\EditorComponents\EnemyEditor.uxml" />
     <None Include="Assets\Editor\EditorComponents\AssetManager.uxml" />
+    <None Include="Assets\Editor\ObjectTypeEditors\SpriteDrawer.uxml" />
     <None Include="Assets\Editor\EditorComponents\PlayerEditor.uxml" />
     <None Include="Assets\Editor\LevelEditorWindow.uxml" />
+    <None Include="Assets\Editor\EditorComponents\ObjectManager.uxml" />
+    <None Include="Assets\Editor\ObjectTypeEditors\EnvironmentDrawer.uxml" />
+    <None Include="Assets\Editor\ObjectTypeEditors\StaticObjectDrawer.uxml" />
     <None Include="Assets\Editor\EditorComponents\LevelEditor.uxml" />
     <None Include="Assets\Editor\LevelEditorWindow.uss" />
     <Reference Include="UnityEditor.TestRunner">

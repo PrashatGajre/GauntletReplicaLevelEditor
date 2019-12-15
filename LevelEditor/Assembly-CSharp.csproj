@@ -62,7 +62,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ObjectType\AnimationObject.cs" />
+    <Compile Include="Assets\ObjectType\CircleColliderObject.cs" />
+    <Compile Include="Assets\ObjectType\Collider.cs" />
     <Compile Include="Assets\ObjectType\CustomTileMap.cs" />
+    <Compile Include="Assets\ObjectType\EnemyObject.cs" />
+    <Compile Include="Assets\ObjectType\EnvironmentObject.cs" />
+    <Compile Include="Assets\ObjectType\GameAssets.cs" />
+    <Compile Include="Assets\ObjectType\Level.cs" />
+    <Compile Include="Assets\ObjectType\PlayerObject.cs" />
+    <Compile Include="Assets\ObjectType\PolygonColliderObject.cs" />
+    <Compile Include="Assets\ObjectType\Project.cs" />
+    <Compile Include="Assets\ObjectType\SpriteObject.cs" />
+    <Compile Include="Assets\ObjectType\StaticObject.cs" />
     <None Include="Assets\Resources\Sounds\BackGroundMusic\INFO.txt" />
     <None Include="Assets\Resources\Fonts\big_monster\readme.txt" />
     <None Include="Assets\Resources\Sounds\SoundEffects\INFO.txt" />

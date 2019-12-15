@@ -8,8 +8,8 @@ using UnityEditorInternal;
 
 public class AnimationData
 {
-    string name;
-    Rect[] spritepositions;
+    public string name;
+    public Rect[] spritepositions;
 
     public string getName() { return name; }
 }
@@ -33,7 +33,7 @@ public class PlayerEditor : VisualElement
     static VisualElement playerEditor;
     static Box playerPropertiesContainer;
     static Box playerAnimationContainer;
-    static List<AnimationData> animationNames = new List<AnimationData>();
+    static List<AnimationObject> animationNames = new List<AnimationObject>();
     
     public static VisualElement GetPlayerEditor()
     {
@@ -74,14 +74,13 @@ public class PlayerEditor : VisualElement
 
         animationListContainer = new IMGUIContainer(DrawAnimationList);
         animationListContainer.onGUIHandler = DrawAnimationList;
-        animationList = new ReorderableList(animationNames, typeof(AnimationData));
-        animationList.drawElementCallback =
-            (Rect rect, int index, bool isActive, bool isFocused) =>
-        {
-            var element = animationList.serializedProperty.GetArrayElementAtIndex(index);
-            var name = element.FindPropertyRelative("name");
-            EditorGUI.LabelField(new Rect(rect.x, rect.y, 100, EditorGUIUtility.singleLineHeight), name.stringValue);
-        };
+        animationList = new ReorderableList(animationNames, typeof(AnimationObject));
+        animationList.drawElementCallback = DrawList;
+        animationList.drawHeaderCallback = WriteHeader;
+        animationList.onReorderCallback = ChangeListOrder;
+        animationList.onSelectCallback = SelectListItem;
+        animationList.onAddCallback = AddToList;
+        animationList.onRemoveCallback = RemoveFromList;
         playerAnimationContainer.Add(animationListContainer);
 
     }
@@ -97,5 +96,34 @@ public class PlayerEditor : VisualElement
         }
     }
 
+    #region ReorderableListCallbacks
+
+    void DrawList(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        var element = animationList.serializedProperty.GetArrayElementAtIndex(index);
+        var name = element.FindPropertyRelative("name");
+        EditorGUI.LabelField(new Rect(rect.x, rect.y, 100, EditorGUIUtility.singleLineHeight), name.stringValue);
+    }
+    void WriteHeader(Rect rect)
+    {
+        EditorGUI.LabelField(new Rect(rect.x, rect.y, 100, EditorGUIUtility.singleLineHeight), "Animations");
+    }
+    void ChangeListOrder(ReorderableList list)
+    {
+        Debug.Log("CHANGE ORDER HERE");
+    }
+    void SelectListItem(ReorderableList list)
+    {
+        Debug.Log("SELECT HERE");
+    }
+    void AddToList(ReorderableList list)
+    {
+        Debug.Log("ADD HERE");
+    }
+    void RemoveFromList(ReorderableList list)
+    {
+        Debug.Log("DELETE HERE");
+    }
+    #endregion
 
 }

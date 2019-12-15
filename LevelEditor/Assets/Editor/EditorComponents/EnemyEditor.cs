@@ -45,13 +45,12 @@ public class EnemyEditor : VisualElement
         animationListContainer = new IMGUIContainer(DrawAnimationList);
         animationListContainer.onGUIHandler = DrawAnimationList;
         animationList = new ReorderableList(animationNames, typeof(AnimationData));
-        animationList.drawElementCallback =
-            (Rect rect, int index, bool isActive, bool isFocused) =>
-            {
-                var element = animationList.serializedProperty.GetArrayElementAtIndex(index);
-                var name = element.FindPropertyRelative("name");
-                EditorGUI.LabelField(new Rect(rect.x, rect.y, 100, EditorGUIUtility.singleLineHeight), name.stringValue);
-            };
+        animationList.drawElementCallback = DrawList;
+        animationList.drawHeaderCallback = WriteHeader;
+        animationList.onReorderCallback = ChangeListOrder;
+        animationList.onSelectCallback = SelectListItem;
+        animationList.onAddCallback = AddToList;
+        animationList.onRemoveCallback = RemoveFromList;
         enemyAnimationContainer.Add(animationListContainer);
     }
     void DrawAnimationList()
@@ -61,4 +60,34 @@ public class EnemyEditor : VisualElement
             animationList.DoLayoutList();
         }
     }
+
+    #region ReorderableListCallbacks
+
+    void DrawList(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        var element = animationList.serializedProperty.GetArrayElementAtIndex(index);
+        var name = element.FindPropertyRelative("name");
+        EditorGUI.LabelField(new Rect(rect.x, rect.y, 100, EditorGUIUtility.singleLineHeight), name.stringValue);
+    }
+    void WriteHeader(Rect rect)
+    {
+        EditorGUI.LabelField(new Rect(rect.x, rect.y, 100, EditorGUIUtility.singleLineHeight), "Animations");
+    }
+    void ChangeListOrder(ReorderableList list)
+    {
+        Debug.Log("CHANGE ORDER HERE");
+    }
+    void SelectListItem(ReorderableList list)
+    {
+        Debug.Log("SELECT HERE");
+    }
+    void AddToList(ReorderableList list)
+    {
+        Debug.Log("ADD HERE");
+    }
+    void RemoveFromList(ReorderableList list)
+    {
+        Debug.Log("DELETE HERE");
+    }
+    #endregion
 }
