@@ -139,8 +139,9 @@ public class LevelEditor : VisualElement
         {
             Debug.Log("ScriptObj: " + AssetDatabase.GUIDToAssetPath(guid));
         }
+        Debug.Log(guids.Length);
 
-        if (guids != null || guids.Length > 0)
+        if (guids != null && guids.Length > 0)
         {
             //level = ScriptableObject.CreateInstance<Level>();
             level = (Level)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guids[0]), typeof(Level));
@@ -298,7 +299,7 @@ public class LevelEditor : VisualElement
         //    levelList.DoLayoutList();
         //}
 
-        
+
     }
 
     void DrawList(Rect rect, int index, bool isActive, bool isFocused)
@@ -327,7 +328,7 @@ public class LevelEditor : VisualElement
     {
         Debug.Log("DELETE HERE");
     }
-    
+
     #endregion
 
     struct Drawable
@@ -343,7 +344,7 @@ public class LevelEditor : VisualElement
     }
 
     List<MapLayer> layersToDraw = new List<MapLayer> { };
-       
+
 
     List<EnvironmentObject> environmentTiles = new List<EnvironmentObject>();
     List<StaticObject> staticObjectTiles = new List<StaticObject>();
@@ -384,10 +385,53 @@ public class LevelEditor : VisualElement
         {
             EditorGUI.DrawRect(new Rect(j * cell, 0, 2, rows * cell), Color.white);
         }
+        for (int layerindex = 0; layerindex < 4; layerindex++)
+        {
+            for (int i =0; i< level.layers[layerindex].position.Count ;i++)
+            {
+                Rect drawRect = new Rect(cols * tileCell, rows * tileCell, tileCell, tileCell);
+                Texture t;
+                Rect spriteRect;
+                if (layerindex == 0)
+                {
+                    Sprite s = ((EnvironmentObject)(level.layers[layerindex].objectOnPosition[i])).sprite.sprite;
+                    t = s.texture;
+                    spriteRect = s.rect;
+                }
+                else if (layerindex == 1)
+                {
+                    Sprite s = ((StaticObject)(level.layers[layerindex].objectOnPosition[i])).sprite.sprite;
+                    t = s.texture;
+                    spriteRect = s.rect;
+                }
+                else if (layerindex == 2)
+                {
+                    Sprite s = ((EnemyObject)(level.layers[layerindex].objectOnPosition[i])).sprite.sprite;
+                    t = s.texture;
+                    spriteRect = s.rect;
+                }
+                else if (layerindex == 3)
+                {
+                    Sprite s = ((PlayerObject)(level.layers[layerindex].objectOnPosition[i])).sprite.sprite;
+                    t = s.texture;
+                    spriteRect = s.rect;
+                }
+                else
+                {
+                    return;
+                }
+                spriteRect.x /= t.width;
+                spriteRect.y /= t.height;
+                spriteRect.y = 1 - spriteRect.y;
+                spriteRect.width /= t.width;
+                spriteRect.height /= t.height;
+                GUI.DrawTextureWithTexCoords(drawRect, t, spriteRect);
+                //GUI.DrawTextureWithTexCoords(drawRect, imageToDraw, drawRect, true);
+            }
+        }
 
 
-
-        MarkDirtyRepaint();
+            MarkDirtyRepaint();
         LevelEditorWindow.RepaintWindow();
         GUI.EndScrollView();
     }
@@ -401,15 +445,15 @@ public class LevelEditor : VisualElement
         switch (layersPopupField.value)
         {
             case "Environment":
-                
+
                 for (int i = 0; i < environmentTiles.Count; i++)
                 {
-                    if (i!=0 && i % 6 == 0)
+                    if (i != 0 && i % 6 == 0)
                     {
                         rows++;
                         cols = 0;
                     }
-                    Rect drawRect = new Rect(cols*tileCell, rows*tileCell, tileCell, tileCell);
+                    Rect drawRect = new Rect(cols * tileCell, rows * tileCell, tileCell, tileCell);
                     Texture t = environmentTiles[i].sprite.sprite.texture;
                     Rect spriteRect = environmentTiles[i].sprite.sprite.rect;
 
@@ -423,8 +467,8 @@ public class LevelEditor : VisualElement
                 }
                 break;
 
-            case "StaticObjects":      
-                
+            case "StaticObjects":
+
                 for (int i = 0; i < staticObjectTiles.Count; i++)
                 {
                     if (i != 0 && i % 6 == 0)
@@ -492,7 +536,7 @@ public class LevelEditor : VisualElement
                 }
                 break;
         }
-                EditorGUILayout.LabelField("", GUILayout.Width(6*tileCell), GUILayout.Height(rows*tileCell));
+        EditorGUILayout.LabelField("", GUILayout.Width(6 * tileCell), GUILayout.Height(rows * tileCell));
 
         MarkDirtyRepaint();
         LevelEditorWindow.RepaintWindow();
@@ -520,6 +564,10 @@ public class LevelEditor : VisualElement
         {
             return;
         }
+        if (selectedScriptableObject == null)
+        {
+            return;
+        }
         if ((evt.localMousePosition.x < mapElement.contentRect.width - 15) && (evt.localMousePosition.y < mapElement.contentRect.height - 15))
         {
             int mapCellStartX = Mathf.FloorToInt(evt.localMousePosition.x + mapScrollPosition.x) / cell;
@@ -528,53 +576,111 @@ public class LevelEditor : VisualElement
             //Debug.Log((evt.localMousePosition + mapScrollPosition) / cell);
 
             Vector2Int drawPos = new Vector2Int(mapCellStartX * cell, mapCellStartY * cell);
-            foreach (MapLayer ml in layersToDraw)
+
+            int selectedLayer = 0;
+            switch (layersPopupField.value)
             {
-                if (ml.name == layersPopupField.value)
+                case "Environment":
+                    selectedLayer = 0;
+                    break;
+                case "StaticObjects":
+                    selectedLayer = 1;
+                    break;
+                case "Enemies":
+                    selectedLayer = 2;
+                    break;
+                case "Players":
+                    selectedLayer = 3;
+                    break;
+            }
+            //for (int i=0;i<level.layers.Length;i++)
+            //{
+            Event e = Event.current;
+            if (level.layers[selectedLayer].position == null || level.layers[selectedLayer].position.Count <=0)
+            {
+                level.layers[selectedLayer].position.Add(drawPos);
+                EditorUtility.SetDirty(level);
+                level.layers[selectedLayer].objectOnPosition.Add(selectedScriptableObject);
+                EditorUtility.SetDirty(level);
+            }
+            foreach (Vector2Int vi in level.layers[selectedLayer].position)
+            {
+                if (vi == drawPos)
                 {
-                    Drawable temp;
-                    if (ml.drawRects.TryGetValue(drawPos, out temp))
+                    int index = level.layers[selectedLayer].position.IndexOf(vi);
+                    if (e.modifiers == EventModifiers.Shift)
                     {
-                        Event e = Event.current;
-                        if (e.modifiers == EventModifiers.Shift)
-                        {
-                            ml.drawRects.Remove(drawPos);
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty(selectedDrawable.assetPath))
-                            {
-                                temp.assetPath = selectedDrawable.assetPath;
-                                temp.texCoords = selectedDrawable.texCoords;
-                                if (ml.drawRects[drawPos].Equals(temp))
-                                {
-                                    ml.drawRects.Remove(drawPos);
-                                }
-                                else
-                                {
-                                    ml.drawRects[drawPos] = temp;
-                                }
-                            }
-                        }
+                        level.layers[selectedLayer].position.RemoveAt(index);
+                        EditorUtility.SetDirty(level);
+                        level.layers[selectedLayer].objectOnPosition.RemoveAt(index);
+                        EditorUtility.SetDirty(level);
+                        break;
                     }
                     else
                     {
-                        Event e = Event.current;
-                        if (e.modifiers == EventModifiers.Shift)
-                        {
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty(selectedDrawable.assetPath))
-                            {
-                                ml.drawRects.Add(drawPos, selectedDrawable);
-                            }
-                        }
+                        level.layers[selectedLayer].position[index] = drawPos;
+                        EditorUtility.SetDirty(level);
+                        level.layers[selectedLayer].objectOnPosition[index] = (selectedScriptableObject);
+                        EditorUtility.SetDirty(level);
+                        break;
                     }
                 }
+                else
+                {
+                    level.layers[selectedLayer].position.Add(drawPos);
+                    EditorUtility.SetDirty(level);
+                    level.layers[selectedLayer].objectOnPosition.Add(selectedScriptableObject);
+                    EditorUtility.SetDirty(level);
+                    break;
+                }
             }
+            //if (level.layers[i] == layersPopupField.value)
+            //{
+            //    Drawable temp;
+            //    if (ml.drawRects.TryGetValue(drawPos, out temp))
+            //    {
+            //        Event e = Event.current;
+            //        if (e.modifiers == EventModifiers.Shift)
+            //        {
+            //            ml.drawRects.Remove(drawPos);
+            //        }
+            //        else
+            //        {
+            //            if (!string.IsNullOrEmpty(selectedDrawable.assetPath))
+            //            {
+            //                temp.assetPath = selectedDrawable.assetPath;
+            //                temp.texCoords = selectedDrawable.texCoords;
+            //                if (ml.drawRects[drawPos].Equals(temp))
+            //                {
+            //                    ml.drawRects.Remove(drawPos);
+            //                }
+            //                else
+            //                {
+            //                    ml.drawRects[drawPos] = temp;
+            //                }
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        Event e = Event.current;
+            //        if (e.modifiers == EventModifiers.Shift)
+            //        {
+            //        }
+            //        else
+            //        {
+            //            if (!string.IsNullOrEmpty(selectedDrawable.assetPath))
+            //            {
+            //                ml.drawRects.Add(drawPos, selectedDrawable);
+            //            }
+            //        }
+            //    }
+            //}
+            //}
 
         }
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
         MarkDirtyRepaint();
         LevelEditorWindow.RepaintWindow();
     }
@@ -600,7 +706,7 @@ public class LevelEditor : VisualElement
                         {
                             numberOfRows++;
                         }
-                        if (TileStartY < numberOfRows*tileCell)
+                        if (TileStartY < numberOfRows * tileCell)
                         {
                             itemNumber = TileStartX / 64 + (6 * TileStartY / 64);
                         }

@@ -60,7 +60,7 @@ public class AssetManager : VisualElement
         //    //Debug.Log("ScriptObj: " + AssetDatabase.GUIDToAssetPath(guid));
         //}
 
-        if (guids != null || guids.Length > 0)
+        if (guids != null && guids.Length > 0)
         {
             //allGameAssets = ScriptableObject.CreateInstance<GameAssets>();
             allGameAssets = (GameAssets)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guids[0]), typeof(GameAssets));

@@ -6,10 +6,10 @@ using UnityEngine;
 public enum Layers { Environment, StaticObjects, Enemies, Players /*, Effects, UI, UIEffects*/ };
 
 [Serializable]
-public struct LevelTile
+public struct Layer
 {
-    public Vector2Int position;
-    public ScriptableObject[] objectsOnPosition;
+    public List <Vector2Int> position;
+    public List <ScriptableObject> objectOnPosition;
 }
 
 [CreateAssetMenu(fileName = "Level-00", menuName = "Custom Assets/Level")]
@@ -25,5 +25,5 @@ public class Level : ScriptableObject
     public float time = 300;
 
     [SerializeField]
-    public List<LevelTile> allLevelTiles = new List<LevelTile>();
+    public Layer[] layers = new Layer[4];
 }
