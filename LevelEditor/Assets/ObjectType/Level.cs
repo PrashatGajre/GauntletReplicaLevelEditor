@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Layers { Environment, StaticObjects, Enemies, Players, Effects, UI, UIEffects };
+public enum Layers { Environment, StaticObjects, Enemies, Players /*, Effects, UI, UIEffects*/ };
 
 [Serializable]
 public struct LevelTile
@@ -12,6 +12,7 @@ public struct LevelTile
     public ScriptableObject[] objectsOnPosition;
 }
 
+[CreateAssetMenu(fileName = "Level-00", menuName = "Custom Assets/Level")]
 [Serializable]
 public class Level : ScriptableObject
 {
@@ -21,7 +22,7 @@ public class Level : ScriptableObject
     public int levelHeight = 64;
 
     [SerializeField]
-    public float time = 100;
+    public float time = 300;
 
     [SerializeField]
     public List<LevelTile> allLevelTiles = new List<LevelTile>();

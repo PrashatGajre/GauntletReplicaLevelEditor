@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEditorInternal;
+using System;
 
 public class LevelEditor : VisualElement
 {
@@ -23,6 +24,11 @@ public class LevelEditor : VisualElement
             }
             return instance;
         }
+    }
+
+    public static void Destroy()
+    {
+        instance = null;
     }
 
     static VisualElement levelEditor;
@@ -87,13 +93,13 @@ public class LevelEditor : VisualElement
         layersPopupField.AddToClassList("height-width-slider");
         levelPropertyContainer.Add(layersPopupField);
 
-        Label selectTileMapLabel = new Label("Choose TileMap(64x64)");
-        levelPropertyContainer.Add(selectTileMapLabel);
+        //Label selectTileMapLabel = new Label("Choose TileMap(64x64)");
+        //levelPropertyContainer.Add(selectTileMapLabel);
 
-        textureObjectField = new ObjectField { objectType = typeof(UnityEngine.Texture) };
-        //textureObjectField.StretchToParentSize();
-        textureObjectField.AddToClassList("height-width-slider");
-        levelPropertyContainer.Add(textureObjectField);
+        //textureObjectField = new ObjectField { objectType = typeof(UnityEngine.Texture) };
+        ////textureObjectField.StretchToParentSize();
+        //textureObjectField.AddToClassList("height-width-slider");
+        //levelPropertyContainer.Add(textureObjectField);
         //// Mirror value of uxml field into the C# field.
         //layersPopupField.RegisterCallback<ChangeEvent<string>>((evt) =>
         //{
@@ -105,7 +111,10 @@ public class LevelEditor : VisualElement
         mapElement = new IMGUIContainer(mapOnGUI);
 
         mapElement.AddToClassList("level-map-sub-container");
-        mapElement.RegisterCallback<MouseUpEvent>(OnMapMouseup);
+        mapElement.RegisterCallback<MouseMoveEvent>(OnMapMouseMove);
+        mapElement.RegisterCallback<MouseDownEvent>(OnMapMouseDown);
+        mapElement.RegisterCallback<MouseUpEvent>(OnMapMouseUp);
+        mapElement.RegisterCallback<MouseOutEvent>(OnMapMouseExit);
 
         levelMapContainer.Add(mapElement);
 
@@ -117,7 +126,108 @@ public class LevelEditor : VisualElement
         tileElement.RegisterCallback<MouseUpEvent>(OnTileMouseup);
 
         levelTileContainer.Add(tileElement);
+
+        InitializeLists();
     }
+
+    private void InitializeLists()
+    {
+        #region EnvironmentObjects
+        string[] Environment_guids = AssetDatabase.FindAssets("t:EnvironmentObject");
+        if (Environment_guids != null || Environment_guids.Length > 0)
+        {
+            foreach (string s in Environment_guids)
+            {
+                EnvironmentObject eo = (EnvironmentObject)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(s), typeof(EnvironmentObject));
+                bool exists = false;
+                foreach (EnvironmentObject envObj in environmentTiles)
+                {
+                    if (envObj == eo)
+                    {
+                        exists = true;
+                    }
+                }
+                if (!exists)
+                {
+                    EnvironmentObject envObj = eo;
+                    environmentTiles.Add(envObj);
+                }
+            }
+        }
+        #endregion
+        #region StaticObjects
+        string[] Static_guids = AssetDatabase.FindAssets("t:StaticObject");
+        if (Static_guids != null || Static_guids.Length > 0)
+        {
+            foreach (string s in Static_guids)
+            {
+                StaticObject so = (StaticObject)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(s), typeof(StaticObject));
+                bool exists = false;
+                foreach (StaticObject statObj in staticObjectTiles)
+                {
+                    if (statObj == so)
+                    {
+                        exists = true;
+                    }
+                }
+                if (!exists)
+                {
+                    StaticObject statObj = so;
+                    staticObjectTiles.Add(statObj);
+                }
+            }
+        }
+        #endregion
+        #region EnemySpawnersObjects
+        string[] Spawner_guids = AssetDatabase.FindAssets("t:EnemySpawnerObject");
+        if (Spawner_guids != null || Spawner_guids.Length > 0)
+        {
+            foreach (string s in Spawner_guids)
+            {
+                EnemySpawnerObject eso = (EnemySpawnerObject)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(s), typeof(EnemySpawnerObject));
+                bool exists = false;
+                foreach (EnemySpawnerObject spawnObj in enemySpawnerTiles)
+                {
+                    if (spawnObj == eso)
+                    {
+                        exists = true;
+                    }
+                }
+                if (!exists)
+                {
+                    EnemySpawnerObject spawnObj = eso;
+                    enemySpawnerTiles.Add(spawnObj);
+                }
+            }
+        }
+        #endregion
+        #region PlayerObjects
+        string[] Player_guids = AssetDatabase.FindAssets("t:PlayerObject");
+        if (Player_guids != null || Player_guids.Length > 0)
+        {
+            foreach (string s in Player_guids)
+            {
+                PlayerObject po = (PlayerObject)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(s), typeof(PlayerObject));
+                bool exists = false;
+                foreach (PlayerObject plObj in playerTiles)
+                {
+                    if (plObj == po)
+                    {
+                        exists = true;
+                    }
+                }
+                if (!exists)
+                {
+                    PlayerObject plObj = po;
+                    playerTiles.Add(plObj);
+                }
+            }
+        }
+        #endregion
+    }
+
+    #region ReorderableListAndCallbacks
+
     void DrawAnimationList()
     {
         //if (levelList != null)
@@ -127,8 +237,6 @@ public class LevelEditor : VisualElement
 
         
     }
-
-    #region ReorderableListCallbacks
 
     void DrawList(Rect rect, int index, bool isActive, bool isFocused)
     {
@@ -156,7 +264,8 @@ public class LevelEditor : VisualElement
     {
         Debug.Log("DELETE HERE");
     }
-
+    
+    #endregion
 
     struct Drawable
     {
@@ -171,6 +280,12 @@ public class LevelEditor : VisualElement
     }
 
     List<MapLayer> layersToDraw = new List<MapLayer> { };
+       
+
+    List<EnvironmentObject> environmentTiles = new List<EnvironmentObject>();
+    List<StaticObject> staticObjectTiles = new List<StaticObject>();
+    List<EnemySpawnerObject> enemySpawnerTiles = new List<EnemySpawnerObject>();
+    List<PlayerObject> playerTiles = new List<PlayerObject>();      //Multiple players kept intentionally so that the designer can check with different variations in player types/values
 
     IMGUIContainer mapElement;
     IMGUIContainer tileElement;
@@ -180,6 +295,10 @@ public class LevelEditor : VisualElement
     int cols = 32;
     int cell = 32;
     int tileCell = 64;
+
+    ScriptableObject selectedScriptableObject = null;
+
+
     private void mapOnGUI()
     {
         mapScrollPosition = EditorGUILayout.BeginScrollView(mapScrollPosition, true, true, GUILayout.Width(mapElement.contentRect.width), GUILayout.Width(mapElement.contentRect.height));
@@ -203,24 +322,26 @@ public class LevelEditor : VisualElement
             EditorGUI.DrawRect(new Rect(j * cell, 0, 2, rows * cell), Color.white);
         }
 
-        foreach (MapLayer m in layersToDraw)
-        {
-            foreach (KeyValuePair<Vector2Int, Drawable> d in m.drawRects)
-            {
-                Texture TextureToDraw = (Texture)AssetDatabase.LoadAssetAtPath(d.Value.assetPath, typeof(Texture));
-                Rect drawRect = new Rect(d.Key, new Vector2((cell/2), (cell/2)));
-                Rect destRect = d.Value.texCoords;
+        //foreach (MapLayer m in layersToDraw)
+        //{
+        //    foreach (KeyValuePair<Vector2Int, Drawable> d in m.drawRects)
+        //    {
+        //        Texture TextureToDraw = (Texture)AssetDatabase.LoadAssetAtPath(d.Value.assetPath, typeof(Texture));
+        //        Rect drawRect = new Rect(d.Key, new Vector2(cell, cell));
+        //        Rect destRect = d.Value.texCoords;
 
-                destRect.x /= TextureToDraw.width;
-                destRect.y /= TextureToDraw.height;
-                destRect.y = 1 - destRect.y;
-                destRect.width /= TextureToDraw.width;
-                destRect.height /= TextureToDraw.height;
+        //        destRect.x /= TextureToDraw.width;
+        //        destRect.y /= TextureToDraw.height;
+        //        destRect.y = 1 - destRect.y;
+        //        destRect.width /= TextureToDraw.width;
+        //        destRect.height /= TextureToDraw.height;
 
-                //Debug.Log("Dest: " + destRect.x + " : " + destRect.y);
-                GUI.DrawTextureWithTexCoords(drawRect, TextureToDraw, destRect);
-            }
-        }
+        //        //Debug.Log("Dest: " + destRect.x + " : " + destRect.y);
+        //        GUI.DrawTextureWithTexCoords(drawRect, TextureToDraw, destRect);
+        //    }
+        //}
+
+
         MarkDirtyRepaint();
         LevelEditorWindow.RepaintWindow();
         GUI.EndScrollView();
@@ -229,14 +350,17 @@ public class LevelEditor : VisualElement
     private void tileOnGUI()
     {
         tileScrollPosition = EditorGUILayout.BeginScrollView(tileScrollPosition, true, true, GUILayout.Width(tileElement.contentRect.width), GUILayout.Width(tileElement.contentRect.height));
+        #region OldImplementation
+        //Paint Palette
+        //if (textureObjectField.value != null)
+        //{
+        //    Texture imageToDraw = (Texture)textureObjectField.value;
+        //    Rect drawRect = new Rect(0, 0, imageToDraw.width, imageToDraw.height);
+        //    GUI.DrawTexture(drawRect, imageToDraw);
+        //    EditorGUILayout.LabelField("", GUILayout.Width(imageToDraw.width), GUILayout.Height(imageToDraw.height));
+        //}
+        //End Paint Palette
 
-        if (textureObjectField.value != null)
-        {
-            Texture imageToDraw = (Texture)textureObjectField.value;
-            Rect drawRect = new Rect(0, 0, imageToDraw.width, imageToDraw.height);
-            GUI.DrawTexture(drawRect, imageToDraw);
-            EditorGUILayout.LabelField("", GUILayout.Width(imageToDraw.width), GUILayout.Height(imageToDraw.height));
-        }
         ////Rect sizeRect = new Rect(0, 0, rows * cell, cols * cell);
         //EditorGUILayout.LabelField("", GUILayout.Width(cols * cell), GUILayout.Height(rows * cell));
 
@@ -248,21 +372,140 @@ public class LevelEditor : VisualElement
         //{
         //    EditorGUI.DrawRect(new Rect(j * cell, 0, 2, rows * cell), Color.white);
         //}
-        GUI.EndScrollView();
+        #endregion
+
+            int rows = 0;
+            int cols = 0;
+        switch (layersPopupField.value)
+        {
+            case "Environment":
+                
+                for (int i = 0; i < environmentTiles.Count; i++)
+                {
+                    if (i!=0 && i % 6 == 0)
+                    {
+                        rows++;
+                        cols = 0;
+                    }
+                    Rect drawRect = new Rect(cols*tileCell, rows*tileCell, tileCell, tileCell);
+                    Texture t = environmentTiles[i].sprite.sprite.texture;
+                    Rect spriteRect = environmentTiles[i].sprite.sprite.rect;
+
+                    spriteRect.x /= t.width;
+                    spriteRect.y /= t.height;
+                    //spriteRect.y = 1 - spriteRect.y;
+                    spriteRect.width /= t.width;
+                    spriteRect.height /= t.height;
+                    GUI.DrawTextureWithTexCoords(drawRect, t, spriteRect);
+                    cols++;
+                }
+                break;
+
+            case "StaticObjects":      
+                
+                for (int i = 0; i < staticObjectTiles.Count; i++)
+                {
+                    if (i != 0 && i % 6 == 0)
+                    {
+                        rows++;
+                        cols = 0;
+                    }
+                    Rect drawRect = new Rect(cols * tileCell, rows * tileCell, tileCell, tileCell);
+                    Texture t = staticObjectTiles[i].sprite.sprite.texture;
+                    Rect spriteRect = staticObjectTiles[i].sprite.sprite.rect;
+
+                    spriteRect.x /= t.width;
+                    spriteRect.y /= t.height;
+                    //spriteRect.y = 1 - spriteRect.y;
+                    spriteRect.width /= t.width;
+                    spriteRect.height /= t.height;
+                    GUI.DrawTextureWithTexCoords(drawRect, t, spriteRect);
+                    cols++;
+                }
+                break;
+
+            case "Enemies":
+
+                for (int i = 0; i < enemySpawnerTiles.Count; i++)
+                {
+                    if (i != 0 && i % 6 == 0)
+                    {
+                        rows++;
+                        cols = 0;
+                    }
+                    Rect drawRect = new Rect(cols * tileCell, rows * tileCell, tileCell, tileCell);
+                    Texture t = enemySpawnerTiles[i].sprite.sprite.texture;
+                    Rect spriteRect = enemySpawnerTiles[i].sprite.sprite.rect;
+
+                    spriteRect.x /= t.width;
+                    spriteRect.y /= t.height;
+                    //spriteRect.y = 1 - spriteRect.y;
+                    spriteRect.width /= t.width;
+                    spriteRect.height /= t.height;
+                    GUI.DrawTextureWithTexCoords(drawRect, t, spriteRect);
+                    cols++;
+                }
+                break;
+
+            case "Players":
+
+                for (int i = 0; i < playerTiles.Count; i++)
+                {
+                    if (i != 0 && i % 6 == 0)
+                    {
+                        rows++;
+                        cols = 0;
+                    }
+                    Rect drawRect = new Rect(cols * tileCell, rows * tileCell, tileCell, tileCell);
+                    Texture t = playerTiles[i].sprite.sprite.texture;
+                    Rect spriteRect = playerTiles[i].sprite.sprite.rect;
+
+                    spriteRect.x /= t.width;
+                    spriteRect.y /= t.height;
+                    //spriteRect.y = 1 - spriteRect.y;
+                    spriteRect.width /= t.width;
+                    spriteRect.height /= t.height;
+                    GUI.DrawTextureWithTexCoords(drawRect, t, spriteRect);
+                    cols++;
+                }
+                break;
+        }
+                EditorGUILayout.LabelField("", GUILayout.Width(6*tileCell), GUILayout.Height(rows*tileCell));
+
         MarkDirtyRepaint();
         LevelEditorWindow.RepaintWindow();
+        GUI.EndScrollView();
     }
 
-    void OnMapMouseup(MouseUpEvent evt)
+    #region MapMouseEvents
+    bool paint = false;
+    void OnMapMouseDown(MouseDownEvent evt)
     {
+        paint = true;
+    }
+    void OnMapMouseUp(MouseUpEvent evt)
+    {
+        paint = false;
+    }
+    void OnMapMouseExit(MouseOutEvent evt)
+    {
+        paint = false;
+    }
+
+    void OnMapMouseMove(MouseMoveEvent evt)
+    {
+        if (!paint)
+        {
+            return;
+        }
         if ((evt.localMousePosition.x < mapElement.contentRect.width - 15) && (evt.localMousePosition.y < mapElement.contentRect.height - 15))
         {
-            int mapCellStartX = Mathf.FloorToInt(evt.localMousePosition.x + mapScrollPosition.x) / (cell/2);
-            int mapCellStartY = Mathf.FloorToInt(evt.localMousePosition.y + mapScrollPosition.y) / (cell/2);
+            int mapCellStartX = Mathf.FloorToInt(evt.localMousePosition.x + mapScrollPosition.x) / cell;
+            int mapCellStartY = Mathf.FloorToInt(evt.localMousePosition.y + mapScrollPosition.y) / cell;
             //Debug.Log(evt.localMousePosition + mapScrollPosition);
-            //Debug.Log((evt.localMousePosition + mapScrollPosition) / (cell/2));
+            //Debug.Log((evt.localMousePosition + mapScrollPosition) / cell);
 
-            Vector2Int drawPos = new Vector2Int(mapCellStartX * (cell/2), mapCellStartY * (cell/2));
+            Vector2Int drawPos = new Vector2Int(mapCellStartX * cell, mapCellStartY * cell);
             foreach (MapLayer ml in layersToDraw)
             {
                 if (ml.name == layersPopupField.value)
@@ -314,29 +557,127 @@ public class LevelEditor : VisualElement
         LevelEditorWindow.RepaintWindow();
     }
 
+    #endregion
+
     void OnTileMouseup(MouseUpEvent evt)
     {
-        if (textureObjectField.value != null)
+        if ((evt.localMousePosition.x < tileElement.contentRect.width - 15) && (evt.localMousePosition.y < tileElement.contentRect.height - 15))
         {
-            if ((evt.localMousePosition.x < tileElement.contentRect.width - 15) && (evt.localMousePosition.y < tileElement.contentRect.height - 15))
-            {
-                int TileStartX = (Mathf.FloorToInt((evt.localMousePosition.x + tileScrollPosition.x) / tileCell) * tileCell);
-                int TileStartY = (Mathf.FloorToInt((evt.localMousePosition.y + tileScrollPosition.y) / tileCell) * tileCell);
+            int itemNumber = -1;
+            int TileStartX = (Mathf.FloorToInt((evt.localMousePosition.x + tileScrollPosition.x) / tileCell) * tileCell);
+            int TileStartY = (Mathf.FloorToInt((evt.localMousePosition.y + tileScrollPosition.y) / tileCell) * tileCell);
 
-                //Debug.Log(TileStartX +":"+TileStartY);
-                if ((TileStartX < ((Texture)textureObjectField.value).width) && (TileStartY < ((Texture)textureObjectField.value).height))
+            if (TileStartX < 6 * tileCell)  //Only span till the 6 columns
+            {
+                int numberOfRows = 0;
+                switch (layersPopupField.value)
                 {
-                    //Debug.Log("within Bounds : " + TileStartX + ":" + TileStartY + " / " + ((Texture)textureObjectField.value).width + " : " + ((Texture)textureObjectField.value).height);
-                    selectedDrawable.assetPath = AssetDatabase.GetAssetPath(textureObjectField.value);
-                    //Debug.Log(selectedDrawable.assetPath);
-                    selectedDrawable.texCoords = new Rect(TileStartX, TileStartY + tileCell, tileCell, tileCell);
-                }
-                else
-                {
-                    //Debug.Log("Out of Bounds: " + TileStartX + ":" + TileStartY + " / " + ((Texture)textureObjectField.value).width + " : " + ((Texture)textureObjectField.value).height);
+                    case "Environment":
+                        numberOfRows = environmentTiles.Count / 6;
+                        if (environmentTiles.Count % 6 > 0)
+                        {
+                            numberOfRows++;
+                        }
+                        if (TileStartY < numberOfRows*tileCell)
+                        {
+                            itemNumber = TileStartX / 64 + (6 * TileStartY / 64);
+                        }
+                        if (itemNumber < environmentTiles.Count && itemNumber >= 0)
+                        {
+                            selectedScriptableObject = environmentTiles[itemNumber];
+                            Debug.Log(selectedScriptableObject.name);
+                        }
+                        else
+                        {
+                            selectedScriptableObject = null;
+                        }
+                        break;
+
+                    case "StaticObjects":
+                        numberOfRows = staticObjectTiles.Count / 6;
+                        if (staticObjectTiles.Count % 6 > 0)
+                        {
+                            numberOfRows++;
+                        }
+                        if (TileStartY < numberOfRows * tileCell)
+                        {
+                            itemNumber = TileStartX / 64 + (6 * TileStartY / 64);
+                        }
+                        if (itemNumber < staticObjectTiles.Count && itemNumber >= 0)
+                        {
+                            selectedScriptableObject = staticObjectTiles[itemNumber];
+                            Debug.Log(selectedScriptableObject.name);
+                        }
+                        else
+                        {
+                            selectedScriptableObject = null;
+                        }
+                        break;
+
+                    case "Enemies":
+                        numberOfRows = enemySpawnerTiles.Count / 6;
+                        if (enemySpawnerTiles.Count % 6 > 0)
+                        {
+                            numberOfRows++;
+                        }
+                        if (TileStartY < numberOfRows * tileCell)
+                        {
+                            itemNumber = TileStartX / 64 + (6 * TileStartY / 64);
+                        }
+                        if (itemNumber < enemySpawnerTiles.Count && itemNumber >= 0)
+                        {
+                            selectedScriptableObject = enemySpawnerTiles[itemNumber];
+                            Debug.Log(selectedScriptableObject.name);
+                        }
+                        else
+                        {
+                            selectedScriptableObject = null;
+                        }
+                        break;
+
+                    case "Players":
+                        numberOfRows = playerTiles.Count / 6;
+                        if (playerTiles.Count % 6 > 0)
+                        {
+                            numberOfRows++;
+                        }
+                        if (TileStartY < numberOfRows * tileCell)
+                        {
+                            itemNumber = TileStartX / 64 + (6 * TileStartY / 64);
+                        }
+                        if (itemNumber < playerTiles.Count && itemNumber >= 0)
+                        {
+                            selectedScriptableObject = playerTiles[itemNumber];
+                            Debug.Log(selectedScriptableObject.name);
+                        }
+                        else
+                        {
+                            selectedScriptableObject = null;
+                        }
+                        break;
                 }
             }
         }
+        //if (textureObjectField.value != null)
+        //{
+        //    if ((evt.localMousePosition.x < tileElement.contentRect.width - 15) && (evt.localMousePosition.y < tileElement.contentRect.height - 15))
+        //    {
+        //        int TileStartX = (Mathf.FloorToInt((evt.localMousePosition.x + tileScrollPosition.x) / tileCell) * tileCell);
+        //        int TileStartY = (Mathf.FloorToInt((evt.localMousePosition.y + tileScrollPosition.y) / tileCell) * tileCell);
+
+        //        //Debug.Log(TileStartX +":"+TileStartY);
+        //        if ((TileStartX < ((Texture)textureObjectField.value).width) && (TileStartY < ((Texture)textureObjectField.value).height))
+        //        {
+        //            //Debug.Log("within Bounds : " + TileStartX + ":" + TileStartY + " / " + ((Texture)textureObjectField.value).width + " : " + ((Texture)textureObjectField.value).height);
+        //            selectedDrawable.assetPath = AssetDatabase.GetAssetPath(textureObjectField.value);
+        //            //Debug.Log(selectedDrawable.assetPath);
+        //            selectedDrawable.texCoords = new Rect(TileStartX, TileStartY + tileCell, tileCell, tileCell);
+        //        }
+        //        else
+        //        {
+        //            //Debug.Log("Out of Bounds: " + TileStartX + ":" + TileStartY + " / " + ((Texture)textureObjectField.value).width + " : " + ((Texture)textureObjectField.value).height);
+        //        }
+        //    }
+        //}
     }
-    #endregion
 }

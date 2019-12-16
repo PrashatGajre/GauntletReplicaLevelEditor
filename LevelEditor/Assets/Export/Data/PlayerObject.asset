@@ -15,7 +15,7 @@ MonoBehaviour:
   layer: 3
   sprite: {fileID: 11400000, guid: ceb983de7dc45bb498d332a883fa2647, type: 2}
   health: 1000
-  speeed: 0
+  speed: 20
   attack: 20
   projectile: {fileID: 11400000, guid: 603e0dde204a4514daf4cd29dd44d5ee, type: 2}
   playerCollider: {fileID: 11400000, guid: 0df0e1fb738655242b355be13b83a251, type: 2}

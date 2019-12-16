@@ -563,15 +563,18 @@ public class ObjectManager : VisualElement
                     #region
                     ObjectField EnvironmentSpriteSelection = ve.Q<ObjectField>("SpriteImageObjectSelectionField");
                     ObjectField ColliderSelection = ve.Q<ObjectField>("SpriteColliderObjectSelectionField");
-                    if (EnvironmentSpriteSelection.value != null && ColliderSelection.value != null)
+                    if (EnvironmentSpriteSelection.value != null)
                     {
                         ScriptableObject eo = ScriptableObject.CreateInstance<EnvironmentObject>();
 
                         EnvironmentObject environmentObject = (EnvironmentObject)eo;
                         environmentObject.sprite = (SpriteObject)EnvironmentSpriteSelection.value;
                         EditorUtility.SetDirty(environmentObject);
-                        environmentObject.collider = (ColliderObject)ColliderSelection.value;
-                        EditorUtility.SetDirty(environmentObject);
+                        if (ColliderSelection.value != null)
+                        {
+                            environmentObject.collider = (ColliderObject)ColliderSelection.value;
+                            EditorUtility.SetDirty(environmentObject);
+                        }
 
                         if (string.IsNullOrEmpty(ObjectNameTextField.value))
                         {

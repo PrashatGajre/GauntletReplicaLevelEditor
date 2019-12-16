@@ -117,7 +117,7 @@ public class LevelEditorWindow : EditorWindow
         //container.Add(playerEditorContent);
 
         //enemyEditorContent = EnemyEditor.GetEnemyEditor();
-
+        LevelEditor.Destroy();
         levelEditorContent = LevelEditor.GetLevelEditor();
 
 

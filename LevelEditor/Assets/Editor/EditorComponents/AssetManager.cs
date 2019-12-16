@@ -55,10 +55,10 @@ public class AssetManager : VisualElement
     void CreateVisualTree()
     {
         string[]  guids = AssetDatabase.FindAssets("t:GameAssets");
-        foreach (string guid in guids)
-        {
-            //Debug.Log("ScriptObj: " + AssetDatabase.GUIDToAssetPath(guid));
-        }
+        //foreach (string guid in guids)
+        //{
+        //    //Debug.Log("ScriptObj: " + AssetDatabase.GUIDToAssetPath(guid));
+        //}
 
         if (guids != null || guids.Length > 0)
         {
@@ -585,7 +585,7 @@ public class AssetManager : VisualElement
     {
         foreach (var asset in assetListBoxContainer.Children())
         {
-            if (!string.IsNullOrEmpty(evt.newValue) && asset.name.Contains(evt.newValue))
+            if (!string.IsNullOrEmpty(evt.newValue) && asset.name.ToLower().Contains(evt.newValue.ToLower()))
             {
                 asset[0].AddToClassList("highlight");
             }
