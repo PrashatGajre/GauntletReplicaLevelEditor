@@ -39,6 +39,7 @@ public class LevelEditor : VisualElement
     ObjectField textureObjectField;
     PopupField<string> layersPopupField;
     Drawable selectedDrawable;
+    Level level;
 
     public static VisualElement GetLevelEditor()
     {
@@ -132,6 +133,68 @@ public class LevelEditor : VisualElement
 
     private void InitializeLists()
     {
+        #region SearchForLevelObjectOrCreate //TODO: fetch from list of objects in the project object
+        string[] guids = AssetDatabase.FindAssets("t:Level");
+        foreach (string guid in guids)
+        {
+            Debug.Log("ScriptObj: " + AssetDatabase.GUIDToAssetPath(guid));
+        }
+
+        if (guids != null || guids.Length > 0)
+        {
+            //level = ScriptableObject.CreateInstance<Level>();
+            level = (Level)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guids[0]), typeof(Level));
+        }
+        else
+        {
+            if (AssetDatabase.IsValidFolder("Assets/Export"))
+            {
+                //Debug.Log("Exists");
+            }
+            else
+            {
+                string ret;
+
+                ret = AssetDatabase.CreateFolder("Assets", "Export");
+                if (AssetDatabase.GUIDToAssetPath(ret) != "")
+                    Debug.Log("Folder asset created");
+                else
+                    Debug.Log("Couldn't find the GUID for the path");
+            }
+            AssetDatabase.Refresh();
+            if (AssetDatabase.IsValidFolder("Assets/Export/Assets"))
+            {
+                //Debug.Log("Exists");
+            }
+            else
+            {
+                string ret;
+
+                ret = AssetDatabase.CreateFolder("Assets/Export", "Assets");
+                if (AssetDatabase.GUIDToAssetPath(ret) != "")
+                    Debug.Log("Folder asset created");
+                else
+                    Debug.Log("Couldn't find the GUID for the path");
+            }
+            if (AssetDatabase.IsValidFolder("Assets/Export/Assets/Data"))
+            {
+                //Debug.Log("Exists");
+            }
+            else
+            {
+                string ret;
+
+                ret = AssetDatabase.CreateFolder("Assets/Export/Assets", "Data");
+                if (AssetDatabase.GUIDToAssetPath(ret) != "")
+                    Debug.Log("Folder asset created");
+                else
+                    Debug.Log("Couldn't find the GUID for the path");
+            }
+            AssetDatabase.Refresh();
+            level = ScriptableObject.CreateInstance<Level>();
+            AssetDatabase.CreateAsset(level, "Assets/Export/Data/Level-00.asset");
+        }
+        #endregion
         #region EnvironmentObjects
         string[] Environment_guids = AssetDatabase.FindAssets("t:EnvironmentObject");
         if (Environment_guids != null || Environment_guids.Length > 0)
@@ -322,24 +385,6 @@ public class LevelEditor : VisualElement
             EditorGUI.DrawRect(new Rect(j * cell, 0, 2, rows * cell), Color.white);
         }
 
-        //foreach (MapLayer m in layersToDraw)
-        //{
-        //    foreach (KeyValuePair<Vector2Int, Drawable> d in m.drawRects)
-        //    {
-        //        Texture TextureToDraw = (Texture)AssetDatabase.LoadAssetAtPath(d.Value.assetPath, typeof(Texture));
-        //        Rect drawRect = new Rect(d.Key, new Vector2(cell, cell));
-        //        Rect destRect = d.Value.texCoords;
-
-        //        destRect.x /= TextureToDraw.width;
-        //        destRect.y /= TextureToDraw.height;
-        //        destRect.y = 1 - destRect.y;
-        //        destRect.width /= TextureToDraw.width;
-        //        destRect.height /= TextureToDraw.height;
-
-        //        //Debug.Log("Dest: " + destRect.x + " : " + destRect.y);
-        //        GUI.DrawTextureWithTexCoords(drawRect, TextureToDraw, destRect);
-        //    }
-        //}
 
 
         MarkDirtyRepaint();
@@ -350,32 +395,9 @@ public class LevelEditor : VisualElement
     private void tileOnGUI()
     {
         tileScrollPosition = EditorGUILayout.BeginScrollView(tileScrollPosition, true, true, GUILayout.Width(tileElement.contentRect.width), GUILayout.Width(tileElement.contentRect.height));
-        #region OldImplementation
-        //Paint Palette
-        //if (textureObjectField.value != null)
-        //{
-        //    Texture imageToDraw = (Texture)textureObjectField.value;
-        //    Rect drawRect = new Rect(0, 0, imageToDraw.width, imageToDraw.height);
-        //    GUI.DrawTexture(drawRect, imageToDraw);
-        //    EditorGUILayout.LabelField("", GUILayout.Width(imageToDraw.width), GUILayout.Height(imageToDraw.height));
-        //}
-        //End Paint Palette
 
-        ////Rect sizeRect = new Rect(0, 0, rows * cell, cols * cell);
-        //EditorGUILayout.LabelField("", GUILayout.Width(cols * cell), GUILayout.Height(rows * cell));
-
-        //for (int i = 0; i <= rows; i++)
-        //{
-        //    EditorGUI.DrawRect(new Rect(0, i * cell, cols * cell, 2), Color.white);
-        //}
-        //for (int j = 0; j <= cols; j++)
-        //{
-        //    EditorGUI.DrawRect(new Rect(j * cell, 0, 2, rows * cell), Color.white);
-        //}
-        #endregion
-
-            int rows = 0;
-            int cols = 0;
+        int rows = 0;
+        int cols = 0;
         switch (layersPopupField.value)
         {
             case "Environment":
@@ -658,26 +680,5 @@ public class LevelEditor : VisualElement
                 }
             }
         }
-        //if (textureObjectField.value != null)
-        //{
-        //    if ((evt.localMousePosition.x < tileElement.contentRect.width - 15) && (evt.localMousePosition.y < tileElement.contentRect.height - 15))
-        //    {
-        //        int TileStartX = (Mathf.FloorToInt((evt.localMousePosition.x + tileScrollPosition.x) / tileCell) * tileCell);
-        //        int TileStartY = (Mathf.FloorToInt((evt.localMousePosition.y + tileScrollPosition.y) / tileCell) * tileCell);
-
-        //        //Debug.Log(TileStartX +":"+TileStartY);
-        //        if ((TileStartX < ((Texture)textureObjectField.value).width) && (TileStartY < ((Texture)textureObjectField.value).height))
-        //        {
-        //            //Debug.Log("within Bounds : " + TileStartX + ":" + TileStartY + " / " + ((Texture)textureObjectField.value).width + " : " + ((Texture)textureObjectField.value).height);
-        //            selectedDrawable.assetPath = AssetDatabase.GetAssetPath(textureObjectField.value);
-        //            //Debug.Log(selectedDrawable.assetPath);
-        //            selectedDrawable.texCoords = new Rect(TileStartX, TileStartY + tileCell, tileCell, tileCell);
-        //        }
-        //        else
-        //        {
-        //            //Debug.Log("Out of Bounds: " + TileStartX + ":" + TileStartY + " / " + ((Texture)textureObjectField.value).width + " : " + ((Texture)textureObjectField.value).height);
-        //        }
-        //    }
-        //}
     }
 }
